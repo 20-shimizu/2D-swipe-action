@@ -24,11 +24,14 @@ public class PlayerController : MonoBehaviour
     private float thresMoveSpeed;
     [SerializeField]
     private float attackDamage;
+    [SerializeField]
+    private float hp;
 
     private STATE state = STATE.NEUTRAL;
 
     private StageManager stageManager;
     private Rigidbody2D rb;
+    private SpriteRenderer sprite;
     private Vector2 pushForce = Vector2.zero;
 
     private Vector2 prevTouchPos = Vector2.zero;
@@ -38,11 +41,26 @@ public class PlayerController : MonoBehaviour
     {
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
         rb = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
         isAiming = state == STATE.AIM;
+        switch (state)
+        {
+            case STATE.NEUTRAL:
+                sprite.color = Color.white;
+                break;
+            case STATE.AIM:
+                sprite.color = Color.blue;
+                break;
+            case STATE.MOVE:
+                sprite.color = Color.red;
+                break;
+            default:
+                break;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -82,7 +100,25 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             stageManager.HitStop(0.1f);
-            other.gameObject.GetComponent<EnemyHPController>().Damage(attackDamage);
+            if (state == STATE.MOVE)
+            {
+                other.gameObject.GetComponent<EnemyHPController>().Damage(attackDamage);
+            }
+            else
+            {
+                Damage(1.0f);
+            }
         }
+    }
+
+    public void Damage(float damage)
+    {
+        hp -= damage;
+        if (hp <= 0.0f) GameOver();
+    }
+    private void GameOver()
+    {
+        // (TODO) 死亡演出
+        Destroy(gameObject);
     }
 }

@@ -661,5 +661,6 @@ MonoBehaviour:
   isAiming: 0
   pushPower: 0.05
   thresSwipeSpeed: 10000
-  thresMoveSpeed: 0
+  thresMoveSpeed: 10
   attackDamage: 10
+  hp: 10
