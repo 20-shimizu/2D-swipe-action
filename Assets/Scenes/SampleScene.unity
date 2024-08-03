@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1278116a09ad857499ef63920fcc384b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowRate: 0.1
+  slowRate: 0.3
 --- !u!4 &480584240
 Transform:
   m_ObjectHideFlags: 0
@@ -221,7 +221,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -378,7 +378,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288557256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.0352, z: 0}
+  m_LocalPosition: {x: 0, y: -7, z: 0}
   m_LocalScale: {x: 30, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -523,5 +523,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAiming: 0
   pushPower: 0.05
-  thresSwipeSpeed: 0
+  thresSwipeSpeed: 10000
   thresMoveSpeed: 0
