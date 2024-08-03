@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     // プレイヤーのスピードの閾値、超えているとき攻撃判定あり
     [SerializeField]
     private float thresMoveSpeed;
+    [SerializeField]
+    private float attackDamage;
 
     private STATE state = STATE.NEUTRAL;
 
@@ -70,6 +72,15 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.AddForce(pushForce);
             pushForce = Vector2.zero;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            // (TODO) ヒットストップ演出
+            other.gameObject.GetComponent<EnemyHPController>().Damage(attackDamage);
         }
     }
 }
