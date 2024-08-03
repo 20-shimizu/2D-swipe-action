@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private STATE state = STATE.NEUTRAL;
 
+    private StageManager stageManager;
     private Rigidbody2D rb;
     private Vector2 pushForce = Vector2.zero;
 
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -79,7 +81,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            // (TODO) ヒットストップ演出
+            stageManager.HitStop(0.1f);
             other.gameObject.GetComponent<EnemyHPController>().Damage(attackDamage);
         }
     }

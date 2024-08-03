@@ -8,6 +8,8 @@ public class StageManager : MonoBehaviour
     // 時間経過がスローになっているときの倍率
     [SerializeField]
     private float slowRate;
+    // ヒットストップ時などで時間が停止しているときにtrue
+    private bool isStopping = false;
 
     void Start()
     {
@@ -17,7 +19,21 @@ public class StageManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (playerCtrl.isAiming) Physics2D.Simulate(slowRate * Time.fixedDeltaTime);
-        else Physics2D.Simulate(Time.fixedDeltaTime);
+        if (!isStopping)
+        {
+            if (playerCtrl.isAiming) Physics2D.Simulate(slowRate * Time.fixedDeltaTime);
+            else Physics2D.Simulate(Time.fixedDeltaTime);
+        }
+    }
+
+    public void HitStop(float stopTime)
+    {
+        StartCoroutine("TimeStop", stopTime);
+    }
+    private IEnumerator TimeStop(float time)
+    {
+        isStopping = true;
+        yield return new WaitForSeconds(time);
+        isStopping = false;
     }
 }
