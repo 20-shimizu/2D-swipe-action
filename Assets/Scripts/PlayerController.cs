@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
+    private GroundCheck groundCheck;
 
     private Vector2 pushForce = Vector2.zero;
     private Vector2 prevTouchPos = Vector2.zero;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        groundCheck = transform.Find("GroundCheck").gameObject.GetComponent<GroundCheck>();
     }
 
     void Update()
@@ -56,6 +58,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("Idle", true);
                 anim.SetBool("Aim", false);
                 anim.SetBool("Move", false);
+                anim.SetBool("Fall", !groundCheck.IsGround());
                 break;
             case STATE.AIM:
                 anim.SetBool("Idle", false);
@@ -66,6 +69,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("Idle", false);
                 anim.SetBool("Aim", false);
                 anim.SetBool("Move", true);
+                anim.SetBool("Fall", !groundCheck.IsGround());
                 break;
             default:
                 break;
@@ -118,6 +122,7 @@ public class PlayerController : MonoBehaviour
             stageManager.HitStop(0.1f);
             if (state == STATE.MOVE)
             {
+                anim.SetTrigger("Attack");
                 other.gameObject.GetComponent<EnemyHPController>().Damage(attackDamage);
             }
             else
