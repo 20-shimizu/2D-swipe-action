@@ -15,7 +15,7 @@ public class StageIcon : MonoBehaviour
         {
             stageName = "Stage" + stageNum.ToString();
         }
-        entryDialog = GameObject.Find("DialogManager").GetComponent<EntryDialog>();
+        entryDialog = GameObject.Find("MapDialogManager").GetComponent<EntryDialog>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
