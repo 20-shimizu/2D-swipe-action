@@ -24,8 +24,6 @@ public class PlayerController : MonoBehaviour
     private float thresMoveSpeed;
     [SerializeField]
     private float attackDamage;
-    [SerializeField]
-    private float hp;
 
     private STATE state = STATE.IDLE;
 
@@ -34,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private GroundCheck groundCheck;
+    private PlayerHPController hpController;
 
     private Vector2 pushForce = Vector2.zero;
     private Vector2 prevTouchPos = Vector2.zero;
@@ -47,6 +46,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         groundCheck = transform.Find("GroundCheck").gameObject.GetComponent<GroundCheck>();
+        hpController = GetComponent<PlayerHPController>();
     }
 
     void Update()
@@ -127,19 +127,14 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Damage(1.0f);
+                hpController.Damage(1.0f);
             }
         }
-    }
-
-    public void Damage(float damage)
-    {
-        hp -= damage;
-        if (hp <= 0.0f) GameOver();
-    }
-    private void GameOver()
-    {
-        // (TODO) 死亡演出
-        Destroy(gameObject);
+        else if (other.gameObject.tag == "Bullet")
+        {
+            // (TODO) 弾によってダメージ変更
+            hpController.Damage(2.0f);
+            Destroy(other.gameObject);
+        }
     }
 }
