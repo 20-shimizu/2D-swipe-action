@@ -4,25 +4,37 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    private PostProcessController postProcessCtrl;
     private PlayerController playerCtrl;
     // 時間経過がスローになっているときの倍率
     [SerializeField]
     private float slowRate;
     // ヒットストップ時などで時間が停止しているときにtrue
     private bool isStopping = false;
+    private float vignetteIntensity;
 
     void Start()
     {
         Physics2D.simulationMode = SimulationMode2D.Script;
         playerCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
+        postProcessCtrl = GameObject.Find("GlobalPostProcessVolume").GetComponent<PostProcessController>();
     }
 
     void FixedUpdate()
     {
         if (!isStopping)
         {
-            if (playerCtrl.isAiming) Physics2D.Simulate(slowRate * Time.fixedDeltaTime);
-            else Physics2D.Simulate(Time.fixedDeltaTime);
+            if (playerCtrl.isAiming)
+            {
+                Physics2D.Simulate(slowRate * Time.fixedDeltaTime);
+                vignetteIntensity = Mathf.PingPong(Time.time / 4.0f, 0.1f) + 0.2f;
+            }
+            else
+            {
+                Physics2D.Simulate(Time.fixedDeltaTime);
+                vignetteIntensity = 0.0f;
+            }
+            postProcessCtrl.SetVignetteIntensity(vignetteIntensity);
         }
     }
 
