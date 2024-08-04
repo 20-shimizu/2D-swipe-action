@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     private enum STATE
     {
-        NEUTRAL, // 移動速度が一定以下、攻撃判定なし
+        IDLE, // 移動速度が一定以下、攻撃判定なし
         AIM, // タップ中、時間の流れが遅くなる
         MOVE, // 移動速度が一定以上、攻撃判定あり
     }
@@ -27,19 +27,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float hp;
 
-    private STATE state = STATE.NEUTRAL;
+    private STATE state = STATE.IDLE;
 
     private StageManager stageManager;
+    private Animator anim;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
-    private Vector2 pushForce = Vector2.zero;
 
+    private Vector2 pushForce = Vector2.zero;
     private Vector2 prevTouchPos = Vector2.zero;
     private Vector2 maxSwipeSpeedVec = Vector2.zero;
-
+    // 右向いてるときはtrue
+    private bool isFacingRight = true;
     void Start()
     {
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
     }
@@ -49,14 +52,20 @@ public class PlayerController : MonoBehaviour
         isAiming = state == STATE.AIM;
         switch (state)
         {
-            case STATE.NEUTRAL:
-                sprite.color = Color.white;
+            case STATE.IDLE:
+                anim.SetBool("Idle", true);
+                anim.SetBool("Aim", false);
+                anim.SetBool("Move", false);
                 break;
             case STATE.AIM:
-                sprite.color = Color.blue;
+                anim.SetBool("Idle", false);
+                anim.SetBool("Aim", true);
+                anim.SetBool("Move", false);
                 break;
             case STATE.MOVE:
-                sprite.color = Color.red;
+                anim.SetBool("Idle", false);
+                anim.SetBool("Aim", false);
+                anim.SetBool("Move", true);
                 break;
             default:
                 break;
@@ -76,12 +85,19 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             pushForce = pushPower * maxSwipeSpeedVec;
+            if (isFacingRight != pushForce.x > 0.0f && pushForce.x != 0.0f)
+            {
+                isFacingRight = !isFacingRight;
+                Vector3 scale = transform.localScale;
+                scale.x = -scale.x;
+                transform.localScale = scale;
+            }
             maxSwipeSpeedVec = Vector2.zero;
         }
         else
         {
             if (rb.velocity.magnitude > thresMoveSpeed) state = STATE.MOVE;
-            else state = STATE.NEUTRAL;
+            else state = STATE.IDLE;
         }
     }
 
