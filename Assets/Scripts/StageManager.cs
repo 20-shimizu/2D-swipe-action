@@ -9,7 +9,7 @@ public class StageManager : MonoBehaviour
     // 時間経過がスローになっているときの倍率
     [SerializeField]
     private float slowRate;
-    // ヒットストップ時などで時間が停止しているときにtrue
+    // ヒットストップ、ダイアログ表示などで時間が停止しているときにtrue
     private bool isStopping = false;
     private float vignetteIntensity;
 
@@ -38,11 +38,16 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    public void TimeStop(bool isStop)
+    {
+        isStopping = isStop;
+    }
+
     public void HitStop(float stopTime)
     {
-        StartCoroutine("TimeStop", stopTime);
+        StartCoroutine("TimeStopForSeconds", stopTime);
     }
-    private IEnumerator TimeStop(float time)
+    private IEnumerator TimeStopForSeconds(float time)
     {
         isStopping = true;
         yield return new WaitForSeconds(time);
