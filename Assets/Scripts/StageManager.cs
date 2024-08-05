@@ -17,7 +17,7 @@ public class StageManager : MonoBehaviour
     {
         Physics2D.simulationMode = SimulationMode2D.Script;
         playerCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
-        postProcessCtrl = GameObject.Find("GlobalPostProcessVolume").GetComponent<PostProcessController>();
+        postProcessCtrl = GameObject.Find("GlobalVolume").GetComponent<PostProcessController>();
     }
 
     void FixedUpdate()
