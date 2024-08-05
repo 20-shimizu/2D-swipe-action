@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sprite;
     private GroundCheck groundCheck;
     private PlayerHPController hpController;
+    private GameObject hpBar;
 
     private Vector2 pushForce = Vector2.zero;
     private Vector2 prevTouchPos = Vector2.zero;
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         groundCheck = transform.Find("GroundCheck").gameObject.GetComponent<GroundCheck>();
         hpController = GetComponent<PlayerHPController>();
+        hpBar = transform.Find("Canvas/HPBar").gameObject;
     }
 
     void Update()
@@ -58,7 +60,6 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("Idle", true);
                 anim.SetBool("Aim", false);
                 anim.SetBool("Move", false);
-                anim.SetBool("Fall", !groundCheck.IsGround());
                 break;
             case STATE.AIM:
                 anim.SetBool("Idle", false);
@@ -69,11 +70,11 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("Idle", false);
                 anim.SetBool("Aim", false);
                 anim.SetBool("Move", true);
-                anim.SetBool("Fall", !groundCheck.IsGround());
                 break;
             default:
                 break;
         }
+        anim.SetBool("Fall", !groundCheck.IsGround());
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -102,6 +103,16 @@ public class PlayerController : MonoBehaviour
         {
             if (rb.velocity.magnitude > thresMoveSpeed) state = STATE.MOVE;
             else state = STATE.IDLE;
+        }
+
+        if (isFacingRight)
+        {
+            hpBar.transform.localScale = new Vector3(0.01f, 0.01f, 1f);
+        }
+        else
+        {
+            hpBar.transform.localScale = new Vector3(-0.01f, 0.01f, 1f);
+
         }
     }
 
