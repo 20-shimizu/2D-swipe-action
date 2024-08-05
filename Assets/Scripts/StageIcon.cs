@@ -23,6 +23,7 @@ public class StageIcon : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             entryDialog.ShowDialog(stageName);
+            other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
     }
 }
