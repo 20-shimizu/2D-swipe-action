@@ -522,9 +522,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAiming: 0
   pushPower: 0.07
-  thresSwipeSpeed: 7000
+  thresSwipeSpeed: 10000
   thresMoveSpeed: 5
-  attackDamage: 1
+  attackDamage: 10
+  pushedPower: 100
+  attackingSpeed: 50
+  finishAttackingSpeed: 10
 --- !u!95 &7998768137482817740
 Animator:
   serializedVersion: 4

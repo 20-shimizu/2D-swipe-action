@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
         IDLE, // 移動速度が一定以下、攻撃判定なし
         AIM, // タップ中、時間の流れが遅くなる
         MOVE, // 移動速度が一定以上、攻撃判定あり
+        ATTACK, // 敵と重なってる状態、素早く敵の判定領域を抜ける
     }
 
     [HideInInspector]
@@ -24,6 +25,15 @@ public class PlayerController : MonoBehaviour
     private float thresMoveSpeed;
     [SerializeField]
     private float attackDamage;
+    // ダメージを受けたときに押される力
+    [SerializeField]
+    private float pushedPower;
+    // 敵に攻撃してすり抜けるときのスピード
+    [SerializeField]
+    private float attackingSpeed;
+    // 攻撃後に敵のコライダーを抜けたときのスピード
+    [SerializeField]
+    private float finishAttackingSpeed;
 
     private STATE state = STATE.IDLE;
 
@@ -38,6 +48,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 pushForce = Vector2.zero;
     private Vector2 prevTouchPos = Vector2.zero;
     private Vector2 maxSwipeSpeedVec = Vector2.zero;
+    private float prevVelocity = 0.0f;
+    // 敵に攻撃した時点の速度ベクトル
+    private Vector2 enteringEnemyVelocityVec = Vector2.zero;
+
     // 右向いてるときはtrue
     private bool isFacingRight = true;
     void Start()
@@ -90,6 +104,14 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             pushForce = pushPower * maxSwipeSpeedVec;
+            if (pushForce.magnitude > 0f)
+            {
+                state = STATE.MOVE;
+            }
+            else
+            {
+                state = STATE.IDLE;
+            }
             if (isFacingRight != pushForce.x > 0.0f && pushForce.x != 0.0f)
             {
                 isFacingRight = !isFacingRight;
@@ -101,8 +123,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (rb.velocity.magnitude > thresMoveSpeed) state = STATE.MOVE;
-            else state = STATE.IDLE;
+            if (prevVelocity > thresMoveSpeed && rb.velocity.magnitude <= thresMoveSpeed && state != STATE.ATTACK)
+            {
+                state = STATE.IDLE;
+            }
         }
 
         if (isFacingRight)
@@ -114,6 +138,7 @@ public class PlayerController : MonoBehaviour
             hpBar.transform.localScale = new Vector3(-0.01f, 0.01f, 1f);
 
         }
+        prevVelocity = rb.velocity.magnitude;
     }
 
     void FixedUpdate()
@@ -128,17 +153,36 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "NormalEnemy")
         {
             stageManager.HitStop(0.1f);
             if (state == STATE.MOVE)
             {
+                state = STATE.ATTACK;
+                enteringEnemyVelocityVec = rb.velocity;
                 anim.SetTrigger("Attack");
                 other.gameObject.GetComponent<EnemyHPController>().Damage(attackDamage);
             }
-            else
+            else if (state != STATE.ATTACK)
             {
                 hpController.Damage(1.0f);
+                rb.AddForce((transform.position - other.transform.position) * pushedPower);
+            }
+        }
+        else if (other.gameObject.tag == "BossEnemy")
+        {
+            stageManager.HitStop(0.1f);
+            if (state == STATE.MOVE)
+            {
+                state = STATE.ATTACK;
+                enteringEnemyVelocityVec = rb.velocity;
+                anim.SetTrigger("Attack");
+                other.gameObject.GetComponent<BossHPController>().Damage(attackDamage);
+            }
+            else if (state != STATE.ATTACK)
+            {
+                hpController.Damage(1.0f);
+                rb.AddForce((transform.position - other.transform.position) * pushedPower);
             }
         }
         else if (other.gameObject.tag == "Bullet")
@@ -146,6 +190,44 @@ public class PlayerController : MonoBehaviour
             // (TODO) 弾によってダメージ変更
             hpController.Damage(2.0f);
             Destroy(other.gameObject);
+        }
+    }
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "NormalEnemy")
+        {
+            if (state == STATE.ATTACK)
+            {
+                rb.velocity = enteringEnemyVelocityVec.normalized * attackingSpeed;
+            }
+        }
+        else if (other.gameObject.tag == "BossEnemy")
+        {
+            if (state == STATE.ATTACK)
+            {
+                rb.velocity = enteringEnemyVelocityVec.normalized * attackingSpeed;
+            }
+        }
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "NormalEnemy")
+        {
+            if (state == STATE.ATTACK)
+            {
+                rb.velocity = enteringEnemyVelocityVec.normalized * finishAttackingSpeed;
+                enteringEnemyVelocityVec = Vector2.zero;
+                state = STATE.MOVE;
+            }
+        }
+        else if (other.gameObject.tag == "BossEnemy")
+        {
+            if (state == STATE.ATTACK)
+            {
+                rb.velocity = enteringEnemyVelocityVec.normalized * finishAttackingSpeed;
+                enteringEnemyVelocityVec = Vector2.zero;
+                state = STATE.MOVE;
+            }
         }
     }
 }
