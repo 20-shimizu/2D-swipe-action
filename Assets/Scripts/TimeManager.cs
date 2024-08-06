@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class TimeManager : MonoBehaviour
 {
     private PostProcessController postProcessCtrl;
     private PlayerController playerCtrl;

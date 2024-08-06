@@ -598,7 +598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 440219768759906460, guid: 27ef6c3b7a61d714a9b6a9ac1f8198ab, type: 3}
       propertyPath: m_Name
-      value: StageManager
+      value: TimeManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27ef6c3b7a61d714a9b6a9ac1f8198ab, type: 3}

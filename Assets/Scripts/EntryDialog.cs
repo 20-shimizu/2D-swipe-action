@@ -12,7 +12,7 @@ public class EntryDialog : MonoBehaviour
     private Button entryButton;
     private Button backButton;
 
-    private StageManager stageManager;
+    private TimeManager timeManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,24 +23,24 @@ public class EntryDialog : MonoBehaviour
         entryButton.onClick.AddListener(OnClickEntryButton);
         backButton.onClick.AddListener(OnClickBackButton);
 
-        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
     }
 
     public void ShowDialog(string stageName)
     {
-        stageManager.TimeStop(true);
+        timeManager.TimeStop(true);
         entryDialog.SetActive(true);
         guideText.text = stageName + "\nに入りますか？";
         this.stageName = stageName;
     }
     private void OnClickEntryButton()
     {
-        stageManager.TimeStop(false);
+        timeManager.TimeStop(false);
         SceneManager.LoadScene(stageName);
     }
     private void OnClickBackButton()
     {
-        stageManager.TimeStop(false);
+        timeManager.TimeStop(false);
         entryDialog.SetActive(false);
     }
 }

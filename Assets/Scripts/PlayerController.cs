@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     private STATE state = STATE.IDLE;
 
-    private StageManager stageManager;
+    private TimeManager timeManager;
     private Animator anim;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight = true;
     void Start()
     {
-        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "NormalEnemy")
         {
-            stageManager.HitStop(0.1f);
+            timeManager.HitStop(0.1f);
             if (state == STATE.MOVE)
             {
                 state = STATE.ATTACK;
@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.tag == "BossEnemy")
         {
-            stageManager.HitStop(0.1f);
+            timeManager.HitStop(0.1f);
             if (state == STATE.MOVE)
             {
                 state = STATE.ATTACK;
