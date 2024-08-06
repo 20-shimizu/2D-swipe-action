@@ -42,6 +42,7 @@ public class TimeManager : MonoBehaviour
     {
         isStopping = isStop;
     }
+    public bool IsStopping() { return isStopping; }
 
     public void HitStop(float stopTime)
     {

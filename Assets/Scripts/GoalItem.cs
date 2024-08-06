@@ -7,10 +7,16 @@ public class GoalItem : MonoBehaviour
 {
     private PostProcessController postProcessController;
     private float bloomIntensity = 0.0f;
+    private StageManager stageManager;
+    private MainCameraController cameraController;
 
     void Start()
     {
         postProcessController = GameObject.Find("GlobalVolume").GetComponent<PostProcessController>();
+        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        cameraController = GameObject.Find("Main Camera").GetComponent<MainCameraController>();
+        cameraController.SetGoalItem(this);
+        stageManager.AppearGoalItem();
     }
     void Update()
     {
@@ -20,7 +26,7 @@ public class GoalItem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && !stageManager.isGoalItemAppearing)
         {
             StageClear();
         }

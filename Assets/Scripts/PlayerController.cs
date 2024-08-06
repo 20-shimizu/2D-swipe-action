@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private enum STATE
+    private enum PLAYERSTATE
     {
         IDLE, // 移動速度が一定以下、攻撃判定なし
         AIM, // タップ中、時間の流れが遅くなる
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float finishAttackingSpeed;
 
-    private STATE state = STATE.IDLE;
+    private PLAYERSTATE state = PLAYERSTATE.IDLE;
 
     private TimeManager timeManager;
     private Animator anim;
@@ -69,20 +69,20 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        isAiming = state == STATE.AIM;
+        isAiming = state == PLAYERSTATE.AIM;
         switch (state)
         {
-            case STATE.IDLE:
+            case PLAYERSTATE.IDLE:
                 anim.SetBool("Idle", true);
                 anim.SetBool("Aim", false);
                 anim.SetBool("Move", false);
                 break;
-            case STATE.AIM:
+            case PLAYERSTATE.AIM:
                 anim.SetBool("Idle", false);
                 anim.SetBool("Aim", true);
                 anim.SetBool("Move", false);
                 break;
-            case STATE.MOVE:
+            case PLAYERSTATE.MOVE:
                 anim.SetBool("Idle", false);
                 anim.SetBool("Aim", false);
                 anim.SetBool("Move", true);
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            state = STATE.AIM;
+            state = PLAYERSTATE.AIM;
             prevTouchPos = Input.mousePosition;
         }
         else if (Input.GetMouseButton(0))
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
             }
             maxSwipeSpeedVec = Vector2.zero;
         }
-        else if (state != STATE.ATTACK)
+        else if (state != PLAYERSTATE.ATTACK)
         {
             // 速度上昇中にIDLEにならないための処理, isSpeedUpingはAddForce時にtrue
             if (rb.velocity.magnitude > thresMoveSpeed)
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (!isSpeedUping)
             {
-                state = STATE.IDLE;
+                state = PLAYERSTATE.IDLE;
             }
         }
 
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
     {
         if (pushForce != Vector2.zero)
         {
-            state = STATE.MOVE;
+            state = PLAYERSTATE.MOVE;
             rb.velocity = Vector2.zero;
             rb.AddForce(pushForce);
             pushForce = Vector2.zero;
@@ -157,14 +157,14 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "NormalEnemy")
         {
             timeManager.HitStop(0.1f);
-            if (state == STATE.MOVE)
+            if (state == PLAYERSTATE.MOVE)
             {
-                state = STATE.ATTACK;
+                state = PLAYERSTATE.ATTACK;
                 enteringEnemyVelocityVec = rb.velocity;
                 anim.SetTrigger("Attack");
                 other.gameObject.GetComponent<EnemyHPController>().Damage(attackDamage);
             }
-            else if (state != STATE.ATTACK)
+            else if (state != PLAYERSTATE.ATTACK)
             {
                 hpController.Damage(1.0f);
                 rb.AddForce((transform.position - other.transform.position) * pushedPower);
@@ -173,14 +173,14 @@ public class PlayerController : MonoBehaviour
         else if (other.gameObject.tag == "BossEnemy")
         {
             timeManager.HitStop(0.1f);
-            if (state == STATE.MOVE)
+            if (state == PLAYERSTATE.MOVE)
             {
-                state = STATE.ATTACK;
+                state = PLAYERSTATE.ATTACK;
                 enteringEnemyVelocityVec = rb.velocity;
                 anim.SetTrigger("Attack");
                 other.gameObject.GetComponent<BossHPController>().Damage(attackDamage);
             }
-            else if (state != STATE.ATTACK)
+            else if (state != PLAYERSTATE.ATTACK)
             {
                 hpController.Damage(1.0f);
                 rb.AddForce((transform.position - other.transform.position) * pushedPower);
@@ -197,14 +197,14 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "NormalEnemy")
         {
-            if (state == STATE.ATTACK)
+            if (state == PLAYERSTATE.ATTACK)
             {
                 rb.velocity = enteringEnemyVelocityVec.normalized * attackingSpeed;
             }
         }
         else if (other.gameObject.tag == "BossEnemy")
         {
-            if (state == STATE.ATTACK)
+            if (state == PLAYERSTATE.ATTACK)
             {
                 rb.velocity = enteringEnemyVelocityVec.normalized * attackingSpeed;
             }
@@ -214,20 +214,20 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "NormalEnemy")
         {
-            if (state == STATE.ATTACK)
+            if (state == PLAYERSTATE.ATTACK)
             {
                 rb.velocity = enteringEnemyVelocityVec.normalized * finishAttackingSpeed;
                 enteringEnemyVelocityVec = Vector2.zero;
-                state = STATE.MOVE;
+                state = PLAYERSTATE.MOVE;
             }
         }
         else if (other.gameObject.tag == "BossEnemy")
         {
-            if (state == STATE.ATTACK)
+            if (state == PLAYERSTATE.ATTACK)
             {
                 rb.velocity = enteringEnemyVelocityVec.normalized * finishAttackingSpeed;
                 enteringEnemyVelocityVec = Vector2.zero;
-                state = STATE.MOVE;
+                state = PLAYERSTATE.MOVE;
             }
         }
     }

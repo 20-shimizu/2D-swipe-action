@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropItem: {fileID: 3664243811279910891, guid: 9060997e71ff5f945ad3e4796197e11a, type: 3}
-  hp: 100
+  hp: 20
 --- !u!114 &8175298270333990430
 MonoBehaviour:
   m_ObjectHideFlags: 0

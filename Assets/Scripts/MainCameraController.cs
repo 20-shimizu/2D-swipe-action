@@ -7,8 +7,9 @@ public class MainCameraController : MonoBehaviour
     [SerializeField]
     private bool isFollowPlayer;
     private GameObject player;
-    Vector3 pos;
-    float cameraPosZ = -10.0f;
+    private GoalItem goalItem;
+    private Vector3 pos;
+    private float cameraPosZ = -10.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,12 @@ public class MainCameraController : MonoBehaviour
     {
         if (isFollowPlayer)
             FollowPlayer();
+        if (goalItem != null)
+        {
+            pos = goalItem.transform.position;
+            pos.z = cameraPosZ;
+            transform.position = pos;
+        }
     }
 
     private void FollowPlayer()
@@ -28,5 +35,10 @@ public class MainCameraController : MonoBehaviour
         pos = player.transform.position;
         pos.z = cameraPosZ;
         transform.position = pos;
+    }
+
+    public void SetGoalItem(GoalItem value)
+    {
+        goalItem = value;
     }
 }
