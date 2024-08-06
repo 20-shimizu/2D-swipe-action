@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MainCameraController : MonoBehaviour
 {
+    [SerializeField]
+    private bool isFollowPlayer;
     private GameObject player;
     Vector3 pos;
     float cameraPosZ = -10.0f;
@@ -17,7 +19,8 @@ public class MainCameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        FollowPlayer();
+        if (isFollowPlayer)
+            FollowPlayer();
     }
 
     private void FollowPlayer()

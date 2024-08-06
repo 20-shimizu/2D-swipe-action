@@ -6,7 +6,7 @@ public class StageIcon : MonoBehaviour
 {
     [SerializeField]
     private int stageNum = 0;
-    private string stageName = "SampleScene";
+    private string stageName = "TestScene";
     private EntryDialog entryDialog;
 
     void Start()
