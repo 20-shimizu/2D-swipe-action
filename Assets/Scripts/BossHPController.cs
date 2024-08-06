@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class BossHPController : MonoBehaviour
 {
     [SerializeField]
+    private GameObject dropItem;
+    [SerializeField]
     private float hp;
     private Slider hpBar;
     void Start()
@@ -24,6 +26,7 @@ public class BossHPController : MonoBehaviour
     private void Die()
     {
         // (TODO)死亡演出
+        Instantiate(dropItem, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

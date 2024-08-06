@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
     private float prevVelocity = 0.0f;
     // 敵に攻撃した時点の速度ベクトル
     private Vector2 enteringEnemyVelocityVec = Vector2.zero;
+    // スワイプ後移動速度が閾値を超えるまではtrue
+    private bool isSpeedUping = false;
 
     // 右向いてるときはtrue
     private bool isFacingRight = true;
@@ -104,14 +106,6 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             pushForce = pushPower * maxSwipeSpeedVec;
-            if (pushForce.magnitude > 0f)
-            {
-                state = STATE.MOVE;
-            }
-            else
-            {
-                state = STATE.IDLE;
-            }
             if (isFacingRight != pushForce.x > 0.0f && pushForce.x != 0.0f)
             {
                 isFacingRight = !isFacingRight;
@@ -121,9 +115,14 @@ public class PlayerController : MonoBehaviour
             }
             maxSwipeSpeedVec = Vector2.zero;
         }
-        else
+        else if (state != STATE.ATTACK)
         {
-            if (prevVelocity > thresMoveSpeed && rb.velocity.magnitude <= thresMoveSpeed && state != STATE.ATTACK)
+            // 速度上昇中にIDLEにならないための処理, isSpeedUpingはAddForce時にtrue
+            if (rb.velocity.magnitude > thresMoveSpeed)
+            {
+                isSpeedUping = false;
+            }
+            else if (!isSpeedUping)
             {
                 state = STATE.IDLE;
             }
@@ -145,9 +144,11 @@ public class PlayerController : MonoBehaviour
     {
         if (pushForce != Vector2.zero)
         {
+            state = STATE.MOVE;
             rb.velocity = Vector2.zero;
             rb.AddForce(pushForce);
             pushForce = Vector2.zero;
+            isSpeedUping = true;
         }
     }
 
