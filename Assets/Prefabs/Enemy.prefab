@@ -45,7 +45,6 @@ GameObject:
   - component: {fileID: 93366406397570217}
   - component: {fileID: 93366406019352514}
   - component: {fileID: 93366406019352516}
-  - component: {fileID: 93366406019352517}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: NormalEnemy
@@ -153,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c3f06d5bbbbb849b90fb43e38d9355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 1
   shotPoint: {fileID: 93366404271057744}
   bulletPrefab: {fileID: 2923434755653125355, guid: 49b6c3dcaa4dd6d44ac121ed3fc5ada6, type: 3}
 --- !u!50 &93366406019352514
@@ -192,16 +192,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!114 &93366406019352517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 93366406397570213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2247ae60b7487394698a1e55ad5923c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 0

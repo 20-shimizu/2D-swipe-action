@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -34,6 +35,9 @@ public class PlayerController : MonoBehaviour
     // 攻撃後に敵のコライダーを抜けたときのスピード
     [SerializeField]
     private float finishAttackingSpeed;
+    [SerializeField]
+    private float hp;
+    private Slider hpBar;
 
     private PLAYERSTATE state = PLAYERSTATE.IDLE;
 
@@ -42,8 +46,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private GroundCheck groundCheck;
-    private PlayerHPController hpController;
-    private GameObject hpBar;
 
     private Vector2 pushForce = Vector2.zero;
     private Vector2 prevTouchPos = Vector2.zero;
@@ -63,8 +65,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         groundCheck = transform.Find("GroundCheck").gameObject.GetComponent<GroundCheck>();
-        hpController = GetComponent<PlayerHPController>();
-        hpBar = transform.Find("Canvas/HPBar").gameObject;
+        hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
+        hpBar.maxValue = hp;
+        hpBar.value = hp;
     }
 
     void Update()
@@ -152,6 +155,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Damage(float damage)
+    {
+        hp -= damage;
+        hpBar.value = hp;
+        if (hp <= 0.0f) Die();
+    }
+
+    private void Die()
+    {
+        // (TODO)死亡演出
+        Destroy(gameObject);
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "NormalEnemy")
@@ -162,11 +178,11 @@ public class PlayerController : MonoBehaviour
                 state = PLAYERSTATE.ATTACK;
                 enteringEnemyVelocityVec = rb.velocity;
                 anim.SetTrigger("Attack");
-                other.gameObject.GetComponent<EnemyHPController>().Damage(attackDamage);
+                other.gameObject.GetComponent<EnemyController>().Damage(attackDamage);
             }
             else if (state != PLAYERSTATE.ATTACK)
             {
-                hpController.Damage(1.0f);
+                Damage(1.0f);
                 rb.AddForce((transform.position - other.transform.position) * pushedPower);
             }
         }
@@ -178,18 +194,18 @@ public class PlayerController : MonoBehaviour
                 state = PLAYERSTATE.ATTACK;
                 enteringEnemyVelocityVec = rb.velocity;
                 anim.SetTrigger("Attack");
-                other.gameObject.GetComponent<BossHPController>().Damage(attackDamage);
+                other.gameObject.GetComponent<BossController>().Damage(attackDamage);
             }
             else if (state != PLAYERSTATE.ATTACK)
             {
-                hpController.Damage(1.0f);
+                Damage(1.0f);
                 rb.AddForce((transform.position - other.transform.position) * pushedPower);
             }
         }
         else if (other.gameObject.tag == "Bullet")
         {
             // (TODO) 弾によってダメージ変更
-            hpController.Damage(2.0f);
+            Damage(2.0f);
             Destroy(other.gameObject);
         }
     }

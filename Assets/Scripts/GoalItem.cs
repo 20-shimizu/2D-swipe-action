@@ -16,7 +16,6 @@ public class GoalItem : MonoBehaviour
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
         cameraController = GameObject.Find("Main Camera").GetComponent<MainCameraController>();
         cameraController.SetGoalItem(this);
-        stageManager.AppearGoalItem();
     }
     void Update()
     {
