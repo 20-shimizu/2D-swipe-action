@@ -8,31 +8,52 @@ public class StageManager : MonoBehaviour
     private enum STATE
     {
         ON_GAME, // ゲーム中、操作可能
+        BOSS_DYING,
         GOAL_ITEM_APPEARING, // ゴールアイテムが出てくる演出中
     }
 
-    public bool isGoalItemAppearing;
     private STATE state;
     private TimeManager timeManager;
-    // Start is called before the first frame update
+    private MainCameraController cameraController;
+    private GameObject player;
+    private GameObject boss;
     void Start()
     {
         state = STATE.ON_GAME;
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
+        cameraController = GameObject.Find("Main Camera").GetComponent<MainCameraController>();
+        player = GameObject.Find("Player");
+        boss = GameObject.Find("Boss");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        isGoalItemAppearing = state == STATE.GOAL_ITEM_APPEARING;
-        if (state == STATE.GOAL_ITEM_APPEARING)
+        if (state == STATE.BOSS_DYING || state == STATE.GOAL_ITEM_APPEARING)
         {
             timeManager.TimeStop(true);
+        }
+
+        // 各stateでカメラが何を追うかを指定する
+        switch (state)
+        {
+            case STATE.ON_GAME:
+                cameraController.SetDesiredPos(player.transform.position, true);
+                break;
+            case STATE.BOSS_DYING:
+                if (boss != null)
+                    cameraController.SetDesiredPos(boss.transform.position, false);
+                break;
+            default:
+                break;
         }
     }
 
     public void AppearGoalItem()
     {
         state = STATE.GOAL_ITEM_APPEARING;
+    }
+    public void DieBossEnemy()
+    {
+        state = STATE.BOSS_DYING;
     }
 }

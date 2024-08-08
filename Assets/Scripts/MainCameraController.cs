@@ -4,41 +4,35 @@ using UnityEngine;
 
 public class MainCameraController : MonoBehaviour
 {
-    [SerializeField]
-    private bool isFollowPlayer;
-    private GameObject player;
-    private GoalItem goalItem;
     private Vector3 pos;
     private float cameraPosZ = -10.0f;
-    // Start is called before the first frame update
+    private Vector3 desiredPos;
+
+    private bool isDirectFollowing;
+
     void Start()
     {
-        player = GameObject.Find("Player");
-        FollowPlayer();
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
-        if (isFollowPlayer)
-            FollowPlayer();
-        if (goalItem != null)
+        if (isDirectFollowing)
         {
-            pos = goalItem.transform.position;
+            pos = desiredPos;
+            pos.z = cameraPosZ;
+            transform.position = pos;
+        }
+        else
+        {
+            pos += (desiredPos - transform.position) * 0.2f;
             pos.z = cameraPosZ;
             transform.position = pos;
         }
     }
 
-    private void FollowPlayer()
+    public void SetDesiredPos(Vector3 p, bool isDirect)
     {
-        pos = player.transform.position;
-        pos.z = cameraPosZ;
-        transform.position = pos;
-    }
-
-    public void SetGoalItem(GoalItem value)
-    {
-        goalItem = value;
+        isDirectFollowing = isDirect;
+        desiredPos = p;
     }
 }
