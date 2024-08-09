@@ -527,7 +527,7 @@ MonoBehaviour:
   pushedPower: 100
   attackingSpeed: 50
   finishAttackingSpeed: 10
-  hp: 0
+  hp: 10
 --- !u!95 &7998768137482817740
 Animator:
   serializedVersion: 4

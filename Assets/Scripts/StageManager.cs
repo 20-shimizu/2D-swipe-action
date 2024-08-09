@@ -28,11 +28,6 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
-        if (state == STATE.BOSS_DYING || state == STATE.GOAL_ITEM_APPEARING)
-        {
-            timeManager.TimeStop(true);
-        }
-
         // 各stateでカメラが何を追うかを指定する
         switch (state)
         {
@@ -42,6 +37,10 @@ public class StageManager : MonoBehaviour
             case STATE.BOSS_DYING:
                 if (boss != null)
                     cameraController.SetDesiredPos(boss.transform.position, false);
+                timeManager.TimeStop(true);
+                break;
+            case STATE.GOAL_ITEM_APPEARING:
+                timeManager.TimeStop(true);
                 break;
             default:
                 break;

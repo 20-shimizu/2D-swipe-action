@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4276853338767388028}
   - component: {fileID: 4276853338767388029}
   - component: {fileID: 4276853338767388026}
+  - component: {fileID: 671333857}
   m_Layer: 0
   m_Name: Boss
   m_TagString: BossEnemy
@@ -139,6 +140,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropItem: {fileID: 3664243811279910891, guid: 9060997e71ff5f945ad3e4796197e11a, type: 3}
   hp: 20
+--- !u!95 &671333857
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4276853338767388025}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3cb75ac0c6ba2b4babb3a4dd178421e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4276853338906497571
 GameObject:
   m_ObjectHideFlags: 0
