@@ -138,8 +138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d28d4785b65769443a408fddf9de6b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 2923434755653125355, guid: 49b6c3dcaa4dd6d44ac121ed3fc5ada6, type: 3}
   dropItem: {fileID: 3664243811279910891, guid: 9060997e71ff5f945ad3e4796197e11a, type: 3}
-  hp: 20
+  hp: 100
 --- !u!95 &671333857
 Animator:
   serializedVersion: 4

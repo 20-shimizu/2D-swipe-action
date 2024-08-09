@@ -32,7 +32,8 @@ public class StageManager : MonoBehaviour
         switch (state)
         {
             case STATE.ON_GAME:
-                cameraController.SetDesiredPos(player.transform.position, true);
+                if (player != null)
+                    cameraController.SetDesiredPos(player.transform.position, true);
                 break;
             case STATE.BOSS_DYING:
                 if (boss != null)
