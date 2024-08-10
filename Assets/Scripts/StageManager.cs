@@ -10,6 +10,7 @@ public class StageManager : MonoBehaviour
         ON_GAME, // ゲーム中、操作可能
         BOSS_DYING,
         GOAL_ITEM_APPEARING, // ゴールアイテムが出てくる演出中
+        GAME_OVER,
     }
 
     private STATE state;
@@ -43,6 +44,9 @@ public class StageManager : MonoBehaviour
             case STATE.GOAL_ITEM_APPEARING:
                 timeManager.TimeStop(true);
                 break;
+            case STATE.GAME_OVER:
+                timeManager.TimeStop(true);
+                break;
             default:
                 break;
         }
@@ -55,5 +59,9 @@ public class StageManager : MonoBehaviour
     public void DieBossEnemy()
     {
         state = STATE.BOSS_DYING;
+    }
+    public void GameOver()
+    {
+        state = STATE.GAME_OVER;
     }
 }

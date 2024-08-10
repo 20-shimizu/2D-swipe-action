@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
     private PLAYERSTATE state = PLAYERSTATE.IDLE;
 
     private TimeManager timeManager;
+    private StageManager stageManager;
+    private PlayerDeathEffects playerDeathEffects;
     private Animator anim;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
@@ -168,8 +170,11 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
-        // (TODO)死亡演出
-        Destroy(gameObject);
+        playerDeathEffects = GetComponent<PlayerDeathEffects>();
+        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        StartCoroutine(playerDeathEffects.PlayDeathEffect());
+
+        stageManager.GameOver();
     }
 
     void OnTriggerEnter2D(Collider2D other)
