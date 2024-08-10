@@ -17,11 +17,10 @@ public class PlayerDeathEffects : MonoBehaviour
 
     public IEnumerator PlayDeathEffect()
     {
+        // 死亡時の位置を記憶
         originalPosition = transform.position;
-        // Screen shake effect
         StartCoroutine(ShakeEffect());
 
-        // Fade out effect
         float elapsedTime = 0;
         Color originalColor = playerSprite.color;
 
@@ -33,8 +32,8 @@ public class PlayerDeathEffects : MonoBehaviour
             yield return null;
         }
 
-        // Disable the player object
-        gameObject.SetActive(false);
+        // プレイヤが消えちゃうのは悲しい？
+        Destroy(gameObject);
     }
 
     private IEnumerator ShakeEffect()

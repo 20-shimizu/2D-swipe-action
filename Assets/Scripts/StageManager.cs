@@ -16,6 +16,7 @@ public class StageManager : MonoBehaviour
     private STATE state;
     private TimeManager timeManager;
     private MainCameraController cameraController;
+    private StageDialogManager stageDialogManager;
     private GameObject player;
     private GameObject boss;
     void Start()
@@ -23,6 +24,7 @@ public class StageManager : MonoBehaviour
         state = STATE.ON_GAME;
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         cameraController = GameObject.Find("Main Camera").GetComponent<MainCameraController>();
+        stageDialogManager = GameObject.Find("StageDialogManager").GetComponent<StageDialogManager>();
         player = GameObject.Find("Player");
         boss = GameObject.Find("Boss");
     }
@@ -63,5 +65,6 @@ public class StageManager : MonoBehaviour
     public void GameOver()
     {
         state = STATE.GAME_OVER;
+        stageDialogManager.ShowDialog("GameOverDialog");
     }
 }
