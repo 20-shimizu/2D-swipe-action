@@ -25,6 +25,11 @@ public class BossController : MonoBehaviour
     private MainCameraController cameraController;
     private float attackCount = 0.0f;
     private float attackAngleOffset = 0.0f;
+
+    private Vector2 pos;
+    private Vector2 nextPos;
+    private Collider2D moveArea;
+
     void Start()
     {
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
@@ -33,7 +38,8 @@ public class BossController : MonoBehaviour
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
         anim = GetComponent<Animator>();
         mainCamera = GameObject.Find("Main Camera");
-
+        pos = transform.position;
+        moveArea = GameObject.Find("BossBattleArea").GetComponent<Collider2D>();
         InvokeRepeating("Attack", 0f, 0.1f);
     }
     void Update()
@@ -47,10 +53,14 @@ public class BossController : MonoBehaviour
                     state = BossState.STOP_ATTACK;
                     attackCount = 0.0f;
                     CancelInvoke();
+                    attackAngleOffset += 30.0f;
+                    GenerateNextPos();
                 }
                 break;
             case BossState.STOP_ATTACK:
                 attackCount += Time.deltaTime;
+                pos += (nextPos - pos) * 0.05f;
+                transform.position = pos;
                 if (attackCount > 2.0f)
                 {
                     state = BossState.ATTACK;
@@ -67,12 +77,20 @@ public class BossController : MonoBehaviour
         {
             ShotBullet((float)angle + attackAngleOffset);
         }
-        attackAngleOffset += 5.0f;
     }
     private void ShotBullet(float angleDeg)
     {
         GameObject b = Instantiate(bullet, transform.position, transform.rotation);
-        b.GetComponent<BulletManager>().Initialize(5.0f, angleDeg);
+        b.GetComponent<BulletManager>().Initialize(10.0f, angleDeg);
+    }
+
+    private void GenerateNextPos()
+    {
+        nextPos = new Vector2(transform.position.x + Random.Range(-4.0f, 4.0f), transform.position.y + Random.Range(-4.0f, 4.0f));
+        while (!moveArea.OverlapPoint(nextPos))
+        {
+            nextPos = new Vector2(transform.position.x + Random.Range(-8.0f, 8.0f), transform.position.y + Random.Range(-8.0f, 8.0f));
+        }
     }
 
     public void Damage(float damage)

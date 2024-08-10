@@ -26,11 +26,14 @@ public class TimeManager : MonoBehaviour
         {
             if (playerCtrl.isAiming)
             {
-                Physics2D.Simulate(slowRate * Time.fixedDeltaTime);
+                Time.timeScale = slowRate;
+                // Physics2D.Simulate(slowRate * Time.fixedDeltaTime);
+                Physics2D.Simulate(Time.fixedDeltaTime);
                 vignetteIntensity = Mathf.PingPong(Time.time / 4.0f, 0.1f) + 0.2f;
             }
             else
             {
+                Time.timeScale = 1.0f;
                 Physics2D.Simulate(Time.fixedDeltaTime);
                 vignetteIntensity = 0.0f;
             }

@@ -55,6 +55,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 enteringEnemyVelocityVec = Vector2.zero;
     // スワイプ後移動速度が閾値を超えるまではtrue
     private bool isSpeedUping = false;
+    // 無敵時true, キャラが点滅
+    private bool isInvincible = false;
+    private float invincibleTime = 2.0f;
+    private float invincibleBlinkSpan = 0.1f;
 
     // 右向いてるときはtrue
     private bool isFacingRight = true;
@@ -157,9 +161,28 @@ public class PlayerController : MonoBehaviour
 
     public void Damage(float damage)
     {
+        StartCoroutine("Invincible");
         hp -= damage;
         hpBar.value = hp;
         if (hp <= 0.0f) Die();
+    }
+
+    private IEnumerator Invincible()
+    {
+        float elapsedTime = 0.0f;
+        Color32 color = new Color32(255, 255, 255, 255);
+        isInvincible = true;
+        while (elapsedTime < invincibleTime)
+        {
+            if (color.a == 255) color.a = 0;
+            else color.a = 255;
+            sprite.color = color;
+            yield return new WaitForSeconds(invincibleBlinkSpan);
+            elapsedTime += invincibleBlinkSpan;
+        }
+        color.a = 255;
+        sprite.color = color;
+        isInvincible = false;
     }
 
     private void Die()
@@ -205,8 +228,11 @@ public class PlayerController : MonoBehaviour
         else if (other.gameObject.tag == "Bullet")
         {
             // (TODO) 弾によってダメージ変更
-            Damage(2.0f);
-            Destroy(other.gameObject);
+            if (!isInvincible)
+            {
+                Damage(2.0f);
+                Destroy(other.gameObject);
+            }
         }
     }
     void OnTriggerStay2D(Collider2D other)
