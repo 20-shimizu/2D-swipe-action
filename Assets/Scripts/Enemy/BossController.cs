@@ -81,7 +81,7 @@ public class BossController : MonoBehaviour
     private void ShotBullet(float angleDeg)
     {
         GameObject b = Instantiate(bullet, transform.position, transform.rotation);
-        b.GetComponent<BulletManager>().Initialize(10.0f, angleDeg);
+        b.GetComponent<BulletController>().Initialize(10.0f, angleDeg);
     }
 
     private void GenerateNextPos()

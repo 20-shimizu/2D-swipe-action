@@ -6,23 +6,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField]
-    private float hp;
-    public Transform shotPoint;
-    public GameObject bulletPrefab;
-    Animator animator;
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            animator.SetTrigger("Shot");
-            Instantiate(bulletPrefab, shotPoint.position, transform.rotation);
-        }
-    }
+    protected float hp;
+    protected Animator anim;
 
     public void Damage(float damage)
     {
@@ -30,9 +15,10 @@ public class EnemyController : MonoBehaviour
         if (hp <= 0.0f) Die();
     }
 
-    private void Die()
+    protected virtual void Die()
     {
-        // (TODO)死亡演出
         Destroy(gameObject);
     }
+
+    protected virtual void Attack() { }
 }
