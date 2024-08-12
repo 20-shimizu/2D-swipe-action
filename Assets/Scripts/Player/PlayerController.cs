@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "NormalEnemy")
+        if (other.gameObject.tag == "NormalEnemy" || other.gameObject.tag == "BossEnemy")
         {
             timeManager.HitStop(0.1f);
             if (state == PLAYERSTATE.MOVE)
@@ -209,42 +209,18 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce((transform.position - other.transform.position) * pushedPower);
             }
         }
-        else if (other.gameObject.tag == "BossEnemy")
-        {
-            timeManager.HitStop(0.1f);
-            if (state == PLAYERSTATE.MOVE)
-            {
-                state = PLAYERSTATE.ATTACK;
-                enteringEnemyVelocityVec = rb.velocity;
-                anim.SetTrigger("Attack");
-                other.gameObject.GetComponent<BossController>().Damage(attackDamage);
-            }
-            else if (state != PLAYERSTATE.ATTACK)
-            {
-                Damage(1.0f);
-                rb.AddForce((transform.position - other.transform.position) * pushedPower);
-            }
-        }
         else if (other.gameObject.tag == "Bullet")
         {
-            // (TODO) 弾によってダメージ変更
             if (!isInvincible)
             {
-                Damage(2.0f);
+                Damage(other.gameObject.GetComponent<BulletController>().GetDamage());
                 Destroy(other.gameObject);
             }
         }
     }
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.tag == "NormalEnemy")
-        {
-            if (state == PLAYERSTATE.ATTACK)
-            {
-                rb.velocity = enteringEnemyVelocityVec.normalized * attackingSpeed;
-            }
-        }
-        else if (other.gameObject.tag == "BossEnemy")
+        if (other.gameObject.tag == "NormalEnemy" || other.gameObject.tag == "BossEnemy")
         {
             if (state == PLAYERSTATE.ATTACK)
             {
@@ -254,16 +230,7 @@ public class PlayerController : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "NormalEnemy")
-        {
-            if (state == PLAYERSTATE.ATTACK)
-            {
-                rb.velocity = enteringEnemyVelocityVec.normalized * finishAttackingSpeed;
-                enteringEnemyVelocityVec = Vector2.zero;
-                state = PLAYERSTATE.MOVE;
-            }
-        }
-        else if (other.gameObject.tag == "BossEnemy")
+        if (other.gameObject.tag == "NormalEnemy" || other.gameObject.tag == "BossEnemy")
         {
             if (state == PLAYERSTATE.ATTACK)
             {

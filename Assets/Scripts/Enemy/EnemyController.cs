@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour
     protected float hp;
     protected Animator anim;
 
-    public void Damage(float damage)
+    public virtual void Damage(float damage)
     {
         hp -= damage;
         if (hp <= 0.0f) Die();
