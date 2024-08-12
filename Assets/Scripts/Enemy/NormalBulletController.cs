@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBulletController : BulletController
+public class NormalBulletController : BulletController
 {
     private float time = 0.0f;
     private StageManager stageManager;
@@ -16,14 +16,9 @@ public class FireBulletController : BulletController
         rb.gravityScale = gravity;
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
     }
-
+    // Update is called once per frame
     void Update()
     {
-        if (rb.velocity != Vector2.zero)
-        {
-            float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        }
         time += Time.deltaTime;
         if (time > 5.0f || !stageManager.isOnGame)
         {

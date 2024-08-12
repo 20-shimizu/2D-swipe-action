@@ -4,24 +4,14 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    private float time = 0.0f;
+    protected Rigidbody2D rb;
+    [SerializeField]
+    private float damage;
 
-    public void Initialize(float speed, float angle, float gravity = 0.0f)
+    public virtual void Initialize(float speed, float angle, float gravity = 0.0f)
     {
         rb = GetComponent<Rigidbody2D>();
-        float angleRad = angle * Mathf.Deg2Rad;
-        Vector2 velocity = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)) * speed;
-        rb.velocity = velocity;
-        // rb.gravityScale = gravity;
     }
 
-    void Update()
-    {
-        time += Time.deltaTime;
-        if (time > 5.0f)
-        {
-            Destroy(gameObject);
-        }
-    }
+    public float GetDamage() { return damage; }
 }

@@ -69,6 +69,15 @@ public class BossController : MonoBehaviour
                 }
                 break;
         }
+
+        if (transform.localScale.x > 0.0f)
+        {
+            hpBar.transform.localScale = new Vector3(0.01f, 0.01f, 1.0f);
+        }
+        else
+        {
+            hpBar.transform.localScale = new Vector3(-0.01f, 0.01f, 1.0f);
+        }
     }
 
     private void Attack()
@@ -104,6 +113,7 @@ public class BossController : MonoBehaviour
     private void Die()
     {
         stageManager.DieBossEnemy();
+        CancelInvoke();
         anim.SetTrigger("Die");
     }
 

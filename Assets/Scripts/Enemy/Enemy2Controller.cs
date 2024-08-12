@@ -23,10 +23,10 @@ public class Enemy2Controller : EnemyController
         GameObject b1 = Instantiate(bullet, shotPoint.transform.position, transform.rotation);
         GameObject b2 = Instantiate(bullet, shotPoint.transform.position, transform.rotation);
         GameObject b3 = Instantiate(bullet, shotPoint.transform.position, transform.rotation);
-        float angle = transform.localScale.x > 0 ? 0.0f : 180.0f;
-        b1.GetComponent<FireBulletController>().Initialize(bulletSpeed, angle + 30.0f);
-        b2.GetComponent<FireBulletController>().Initialize(bulletSpeed, angle);
-        b3.GetComponent<FireBulletController>().Initialize(bulletSpeed, angle - 30.0f);
-        anim.SetTrigger("Attack");
+        float angle = transform.localScale.x < 0 ? 0.0f : 180.0f;
+        b1.GetComponent<BulletController>().Initialize(bulletSpeed, angle + 30.0f);
+        b2.GetComponent<BulletController>().Initialize(bulletSpeed, angle);
+        b3.GetComponent<BulletController>().Initialize(bulletSpeed, angle - 30.0f);
+        // anim.SetTrigger("Attack");
     }
 }
