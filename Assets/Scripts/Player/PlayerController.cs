@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
         AIM, // タップ中、時間の流れが遅くなる
         MOVE, // 移動速度が一定以上、攻撃判定あり
         ATTACK, // 敵と重なってる状態、素早く敵の判定領域を抜ける
+        GAMEOVER, // 死亡時
     }
 
     [HideInInspector]
@@ -42,6 +43,8 @@ public class PlayerController : MonoBehaviour
     private PLAYERSTATE state = PLAYERSTATE.IDLE;
 
     private TimeManager timeManager;
+    private StageManager stageManager;
+    private PlayerDeathEffects playerDeathEffects;
     private Animator anim;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour
     private bool isInvincible = false;
     private float invincibleTime = 2.0f;
     private float invincibleBlinkSpan = 0.1f;
+    private float GAMEOVER_DELAY = 0.5f;
 
     // 右向いてるときはtrue
     private bool isFacingRight = true;
@@ -167,6 +171,18 @@ public class PlayerController : MonoBehaviour
         if (hp <= 0.0f) Die();
     }
 
+    private void Die()
+    {
+        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        playerDeathEffects = GetComponent<PlayerDeathEffects>();
+
+        if (state == PLAYERSTATE.GAMEOVER) return;
+        state = PLAYERSTATE.GAMEOVER;
+        StartCoroutine(playerDeathEffects.PlayDeathEffect());
+        StartCoroutine(DelayedGameOver(stageManager, GAMEOVER_DELAY));
+    }
+
+
     private IEnumerator Invincible()
     {
         float elapsedTime = 0.0f;
@@ -183,12 +199,6 @@ public class PlayerController : MonoBehaviour
         color.a = 255;
         sprite.color = color;
         isInvincible = false;
-    }
-
-    private void Die()
-    {
-        // (TODO)死亡演出
-        Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -239,5 +249,17 @@ public class PlayerController : MonoBehaviour
                 state = PLAYERSTATE.MOVE;
             }
         }
+    }
+
+    private IEnumerator DelayedGameOver(StageManager stageManager, float timeToDelay)
+    {
+
+        float elapsedTime = 0f;
+        while (elapsedTime < timeToDelay)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        stageManager.GameOver();
     }
 }

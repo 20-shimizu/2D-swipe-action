@@ -10,11 +10,13 @@ public class StageManager : MonoBehaviour
         ON_GAME, // ゲーム中、操作可能
         BOSS_DYING,
         GOAL_ITEM_APPEARING, // ゴールアイテムが出てくる演出中
+        GAME_OVER,
     }
 
     private STATE state;
     private TimeManager timeManager;
     private MainCameraController cameraController;
+    private StageDialogManager stageDialogManager;
     private GameObject player;
     private GameObject boss;
 
@@ -25,6 +27,7 @@ public class StageManager : MonoBehaviour
         state = STATE.ON_GAME;
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         cameraController = GameObject.Find("Main Camera").GetComponent<MainCameraController>();
+        stageDialogManager = GameObject.Find("StageDialogManager").GetComponent<StageDialogManager>();
         player = GameObject.Find("Player");
         boss = GameObject.Find("Boss");
     }
@@ -47,6 +50,9 @@ public class StageManager : MonoBehaviour
             case STATE.GOAL_ITEM_APPEARING:
                 timeManager.TimeStop(true);
                 break;
+            case STATE.GAME_OVER:
+                timeManager.TimeStop(true);
+                break;
             default:
                 break;
         }
@@ -59,5 +65,10 @@ public class StageManager : MonoBehaviour
     public void DieBossEnemy()
     {
         state = STATE.BOSS_DYING;
+    }
+    public void GameOver()
+    {
+        state = STATE.GAME_OVER;
+        stageDialogManager.ShowDialog("GameOverDialog");
     }
 }
