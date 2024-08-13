@@ -8,7 +8,7 @@ public class BulletController : MonoBehaviour
     [SerializeField]
     private float damage;
 
-    public virtual void Initialize(float speed, float angle, float gravity = 0.0f)
+    public virtual void Initialize(float speed, float angle, bool reverse = false, float gravity = 0.0f)
     {
         rb = GetComponent<Rigidbody2D>();
     }

@@ -7,7 +7,7 @@ public class FireBulletController : BulletController
     private float time = 0.0f;
     private StageManager stageManager;
 
-    public override void Initialize(float speed, float angle, float gravity = 0.0f)
+    public override void Initialize(float speed, float angle, bool reverse = false, float gravity = 0.0f)
     {
         rb = GetComponent<Rigidbody2D>();
         float angleRad = angle * Mathf.Deg2Rad;
