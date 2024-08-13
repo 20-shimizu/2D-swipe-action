@@ -19,6 +19,9 @@ public class StageManager : MonoBehaviour
     private StageDialogManager stageDialogManager;
     private GameObject player;
     private GameObject boss;
+
+    public bool isOnGame = false;
+
     void Start()
     {
         state = STATE.ON_GAME;
@@ -31,6 +34,7 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
+        isOnGame = state == STATE.ON_GAME;
         // 各stateでカメラが何を追うかを指定する
         switch (state)
         {

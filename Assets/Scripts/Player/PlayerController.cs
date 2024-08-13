@@ -58,15 +58,14 @@ public class PlayerController : MonoBehaviour
     private Vector2 enteringEnemyVelocityVec = Vector2.zero;
     // スワイプ後移動速度が閾値を超えるまではtrue
     private bool isSpeedUping = false;
+    // 無敵時true, キャラが点滅
+    private bool isInvincible = false;
+    private float invincibleTime = 2.0f;
+    private float invincibleBlinkSpan = 0.1f;
+    private float GAMEOVER_DELAY = 0.5f;
 
     // 右向いてるときはtrue
     private bool isFacingRight = true;
-
-    private const float PLAYER_DAMAGE_BY_BULLET = 100.0f;
-    private const float PLAYER_DAMAGE_BY_ENEMY = 1.0f;
-    private const float PLAYER_DAMAGE_BY_BOSS = 100.0f;
-    private const float GAMEOVER_DELAY = 0.5f;
-
     void Start()
     {
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
@@ -147,6 +146,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             hpBar.transform.localScale = new Vector3(-0.01f, 0.01f, 1f);
+
         }
         prevVelocity = rb.velocity.magnitude;
     }
@@ -165,27 +165,45 @@ public class PlayerController : MonoBehaviour
 
     public void Damage(float damage)
     {
+        StartCoroutine("Invincible");
         hp -= damage;
         hpBar.value = hp;
-        if (hp <= 0.0f && state != PLAYERSTATE.GAMEOVER)
-        {
-            Die();
-        }
+        if (hp <= 0.0f) Die();
     }
 
     private void Die()
     {
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
         playerDeathEffects = GetComponent<PlayerDeathEffects>();
+
         if (state == PLAYERSTATE.GAMEOVER) return;
         state = PLAYERSTATE.GAMEOVER;
         StartCoroutine(playerDeathEffects.PlayDeathEffect());
         StartCoroutine(DelayedGameOver(stageManager, GAMEOVER_DELAY));
     }
 
+
+    private IEnumerator Invincible()
+    {
+        float elapsedTime = 0.0f;
+        Color32 color = new Color32(255, 255, 255, 255);
+        isInvincible = true;
+        while (elapsedTime < invincibleTime)
+        {
+            if (color.a == 255) color.a = 0;
+            else color.a = 255;
+            sprite.color = color;
+            yield return new WaitForSeconds(invincibleBlinkSpan);
+            elapsedTime += invincibleBlinkSpan;
+        }
+        color.a = 255;
+        sprite.color = color;
+        isInvincible = false;
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "NormalEnemy")
+        if (other.gameObject.tag == "NormalEnemy" || other.gameObject.tag == "BossEnemy")
         {
             timeManager.HitStop(0.1f);
             if (state == PLAYERSTATE.MOVE)
@@ -197,44 +215,22 @@ public class PlayerController : MonoBehaviour
             }
             else if (state != PLAYERSTATE.ATTACK)
             {
-                Damage(PLAYER_DAMAGE_BY_ENEMY);
-                rb.AddForce((transform.position - other.transform.position) * pushedPower);
-            }
-        }
-        else if (other.gameObject.tag == "BossEnemy")
-        {
-            timeManager.HitStop(0.1f);
-            if (state == PLAYERSTATE.MOVE)
-            {
-                state = PLAYERSTATE.ATTACK;
-                enteringEnemyVelocityVec = rb.velocity;
-                anim.SetTrigger("Attack");
-                other.gameObject.GetComponent<BossController>().Damage(attackDamage);
-            }
-            else if (state != PLAYERSTATE.ATTACK)
-            {
-                Damage(PLAYER_DAMAGE_BY_BOSS);
+                Damage(1.0f);
                 rb.AddForce((transform.position - other.transform.position) * pushedPower);
             }
         }
         else if (other.gameObject.tag == "Bullet")
         {
-            // (TODO) 弾によってダメージ変更
-            Damage(PLAYER_DAMAGE_BY_BULLET);
-            Destroy(other.gameObject);
+            if (!isInvincible)
+            {
+                Damage(other.gameObject.GetComponent<BulletController>().GetDamage());
+                Destroy(other.gameObject);
+            }
         }
     }
-
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.tag == "NormalEnemy")
-        {
-            if (state == PLAYERSTATE.ATTACK)
-            {
-                rb.velocity = enteringEnemyVelocityVec.normalized * attackingSpeed;
-            }
-        }
-        else if (other.gameObject.tag == "BossEnemy")
+        if (other.gameObject.tag == "NormalEnemy" || other.gameObject.tag == "BossEnemy")
         {
             if (state == PLAYERSTATE.ATTACK)
             {
@@ -242,19 +238,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "NormalEnemy")
-        {
-            if (state == PLAYERSTATE.ATTACK)
-            {
-                rb.velocity = enteringEnemyVelocityVec.normalized * finishAttackingSpeed;
-                enteringEnemyVelocityVec = Vector2.zero;
-                state = PLAYERSTATE.MOVE;
-            }
-        }
-        else if (other.gameObject.tag == "BossEnemy")
+        if (other.gameObject.tag == "NormalEnemy" || other.gameObject.tag == "BossEnemy")
         {
             if (state == PLAYERSTATE.ATTACK)
             {

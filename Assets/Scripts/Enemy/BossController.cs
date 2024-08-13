@@ -3,24 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossController : MonoBehaviour
+public class BossController : EnemyController
 {
     private enum BossState
     {
         ATTACK,
-        STOP_ATTACK,
+        MOVE,
     }
     private BossState state = BossState.ATTACK;
 
+    private GameObject shotPoint;
     [SerializeField]
     private GameObject bullet;
     [SerializeField]
     private GameObject dropItem;
-    [SerializeField]
-    private float hp;
     private Slider hpBar;
     private StageManager stageManager;
-    private Animator anim;
     private GameObject mainCamera;
     private MainCameraController cameraController;
     private float attackCount = 0.0f;
@@ -32,6 +30,7 @@ public class BossController : MonoBehaviour
 
     void Start()
     {
+        shotPoint = transform.Find("ShotPoint").gameObject;
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
         hpBar.maxValue = hp;
         hpBar.value = hp;
@@ -40,7 +39,8 @@ public class BossController : MonoBehaviour
         mainCamera = GameObject.Find("Main Camera");
         pos = transform.position;
         moveArea = GameObject.Find("BossBattleArea").GetComponent<Collider2D>();
-        InvokeRepeating("Attack", 0f, 0.1f);
+        InvokeRepeating("Attack", 0f, 0.3f);
+        anim.SetTrigger("Attack");
     }
     void Update()
     {
@@ -48,40 +48,50 @@ public class BossController : MonoBehaviour
         {
             case BossState.ATTACK:
                 attackCount += Time.deltaTime;
-                if (attackCount > 1.0f)
+                if (attackCount > 1.4f)
                 {
-                    state = BossState.STOP_ATTACK;
+                    state = BossState.MOVE;
                     attackCount = 0.0f;
                     CancelInvoke();
-                    attackAngleOffset += 30.0f;
                     GenerateNextPos();
                 }
                 break;
-            case BossState.STOP_ATTACK:
+            case BossState.MOVE:
                 attackCount += Time.deltaTime;
                 pos += (nextPos - pos) * 0.05f;
                 transform.position = pos;
-                if (attackCount > 2.0f)
+                if (attackCount > 3.0f)
                 {
                     state = BossState.ATTACK;
                     attackCount = 0.0f;
-                    InvokeRepeating("Attack", 0f, 0.1f);
+                    InvokeRepeating("Attack", 0f, 0.3f);
+                    anim.SetTrigger("Attack");
                 }
                 break;
         }
+
+        if (transform.localScale.x > 0.0f)
+        {
+            hpBar.transform.localScale = new Vector3(0.01f, 0.01f, 1.0f);
+        }
+        else
+        {
+            hpBar.transform.localScale = new Vector3(-0.01f, 0.01f, 1.0f);
+        }
     }
 
-    private void Attack()
+    protected override void Attack()
     {
         for (int angle = 0; angle < 360; angle += 90)
         {
             ShotBullet((float)angle + attackAngleOffset);
         }
+        attackAngleOffset += 30.0f;
     }
     private void ShotBullet(float angleDeg)
     {
-        GameObject b = Instantiate(bullet, transform.position, transform.rotation);
-        b.GetComponent<BulletManager>().Initialize(10.0f, angleDeg);
+        GameObject b = Instantiate(bullet, shotPoint.transform.position, transform.rotation);
+        b.GetComponent<BulletController>().Initialize(10.0f, angleDeg);
     }
 
     private void GenerateNextPos()
@@ -93,7 +103,7 @@ public class BossController : MonoBehaviour
         }
     }
 
-    public void Damage(float damage)
+    public override void Damage(float damage)
     {
         hp -= damage;
         hpBar.value = hp;
@@ -101,9 +111,10 @@ public class BossController : MonoBehaviour
     }
 
     // 死亡 → 死亡演出,state:BOSS_DYING → アイテム出現演出,state:GOAL_ITEM_APPEARING → 取得した能力の説明ダイアログ表示,ボタン押してマップへ戻る
-    private void Die()
+    protected override void Die()
     {
         stageManager.DieBossEnemy();
+        CancelInvoke();
         anim.SetTrigger("Die");
     }
 
