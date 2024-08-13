@@ -22,13 +22,20 @@ public class GameOverManager : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    public void HideGameOverUI()
+    {
+        gameObject.SetActive(false);
+    }
+
     void Retry()
     {
-        Debug.Log("Retry");
+        HideGameOverUI();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void GoToStageSelect()
     {
-        Debug.Log("Go to Stage Select");
+        HideGameOverUI();
+        SceneManager.LoadScene("MapScene");
     }
 }

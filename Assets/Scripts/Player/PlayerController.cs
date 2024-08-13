@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
         AIM, // タップ中、時間の流れが遅くなる
         MOVE, // 移動速度が一定以上、攻撃判定あり
         ATTACK, // 敵と重なってる状態、素早く敵の判定領域を抜ける
+        GAMEOVER, // 死亡時
     }
 
     [HideInInspector]
@@ -64,6 +65,8 @@ public class PlayerController : MonoBehaviour
     private const float PLAYER_DAMAGE_BY_BULLET = 100.0f;
     private const float PLAYER_DAMAGE_BY_ENEMY = 1.0f;
     private const float PLAYER_DAMAGE_BY_BOSS = 100.0f;
+    private const float GAMEOVER_DELAY = 0.5f;
+
     void Start()
     {
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
@@ -144,7 +147,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             hpBar.transform.localScale = new Vector3(-0.01f, 0.01f, 1f);
-
         }
         prevVelocity = rb.velocity.magnitude;
     }
@@ -165,16 +167,20 @@ public class PlayerController : MonoBehaviour
     {
         hp -= damage;
         hpBar.value = hp;
-        if (hp <= 0.0f) Die();
+        if (hp <= 0.0f && state != PLAYERSTATE.GAMEOVER)
+        {
+            Die();
+        }
     }
 
     private void Die()
     {
-        playerDeathEffects = GetComponent<PlayerDeathEffects>();
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        playerDeathEffects = GetComponent<PlayerDeathEffects>();
+        if (state == PLAYERSTATE.GAMEOVER) return;
+        state = PLAYERSTATE.GAMEOVER;
         StartCoroutine(playerDeathEffects.PlayDeathEffect());
-
-        stageManager.GameOver();
+        StartCoroutine(DelayedGameOver(stageManager, GAMEOVER_DELAY));
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -218,6 +224,7 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
+
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.tag == "NormalEnemy")
@@ -235,6 +242,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "NormalEnemy")
@@ -255,5 +263,17 @@ public class PlayerController : MonoBehaviour
                 state = PLAYERSTATE.MOVE;
             }
         }
+    }
+
+    private IEnumerator DelayedGameOver(StageManager stageManager, float timeToDelay)
+    {
+
+        float elapsedTime = 0f;
+        while (elapsedTime < timeToDelay)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        stageManager.GameOver();
     }
 }
