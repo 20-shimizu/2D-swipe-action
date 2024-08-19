@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - NormalEnemy
   - BossEnemy
+  - Trap
   layers:
   - Default
   - TransparentFX

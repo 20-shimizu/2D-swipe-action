@@ -394,6 +394,7 @@ GameObject:
   - component: {fileID: 7998768137482817779}
   - component: {fileID: 7998768137482817741}
   - component: {fileID: 7998768137482817740}
+  - component: {fileID: 563124734}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -524,7 +525,7 @@ MonoBehaviour:
   thresSwipeSpeed: 10000
   thresMoveSpeed: 5
   attackDamage: 10
-  pushedPower: 100
+  pushedPower: 300
   attackingSpeed: 50
   finishAttackingSpeed: 10
   hp: 100
@@ -548,6 +549,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &563124734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998768137482817738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0d7cf4355c56742909bbad2a1898cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeOutDuration: 1
+  shakeIntensity: 0.1
+  shakeDuration: 0.5
+  originalPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &7998768137929533484
 GameObject:
   m_ObjectHideFlags: 0

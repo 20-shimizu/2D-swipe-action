@@ -171,6 +171,12 @@ public class PlayerController : MonoBehaviour
         if (hp <= 0.0f) Die();
     }
 
+    public void KnockBack(Vector2 vec, float force)
+    {
+        rb.velocity = Vector2.zero;
+        rb.AddForce(vec * force);
+    }
+
     private void Die()
     {
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
@@ -213,10 +219,11 @@ public class PlayerController : MonoBehaviour
                 anim.SetTrigger("Attack");
                 other.gameObject.GetComponent<EnemyController>().Damage(attackDamage);
             }
-            else if (state != PLAYERSTATE.ATTACK)
+            else if (state != PLAYERSTATE.ATTACK && !isInvincible)
             {
                 Damage(1.0f);
-                rb.AddForce((transform.position - other.transform.position) * pushedPower);
+                KnockBack(transform.position - other.transform.position, pushedPower);
+                // rb.AddForce((transform.position - other.transform.position) * pushedPower);
             }
         }
         else if (other.gameObject.tag == "Bullet")
@@ -225,6 +232,15 @@ public class PlayerController : MonoBehaviour
             {
                 Damage(other.gameObject.GetComponent<BulletController>().GetDamage());
                 Destroy(other.gameObject);
+            }
+        }
+        else if (other.gameObject.tag == "Trap")
+        {
+            if (!isInvincible)
+            {
+                Damage(1.0f);
+                KnockBack(transform.position - other.transform.position, pushedPower);
+                // rb.AddForce((transform.position - other.transform.position) * pushedPower);
             }
         }
     }
