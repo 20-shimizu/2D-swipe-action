@@ -65,10 +65,6 @@ public class PlayerController : MonoBehaviour
     // 右向いてるときはtrue
     private bool isFacingRight = true;
 
-    // プレイヤーの能力の解放状態
-    private bool isReleasedAirJump;
-    private bool isReleasedTimeControl;
-    private bool isReleasedBrrier;
     void Start()
     {
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
@@ -79,7 +75,6 @@ public class PlayerController : MonoBehaviour
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
         hpBar.maxValue = hp;
         hpBar.value = hp;
-        LoadParameter();
     }
 
     void Update()
@@ -108,12 +103,9 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (isReleasedAirJump || groundCheck.IsGround())
-            {
-                state = PLAYERSTATE.AIM;
-                prevTouchPos = Input.mousePosition;
-                isSwiping = true;
-            }
+            state = PLAYERSTATE.AIM;
+            prevTouchPos = Input.mousePosition;
+            isSwiping = true;
         }
         else if (Input.GetMouseButton(0))
         {
@@ -294,18 +286,4 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool IsAiming() { return state == PLAYERSTATE.AIM; }
-
-    public bool IsReleasedTimeControl() { return isReleasedTimeControl; }
-
-    private void SaveParameter()
-    {
-        // (TODO) ステージクリア時かゲーム終了時に能力の開放状況などをセーブ
-    }
-    private void LoadParameter()
-    {
-        // (TODO) ゲーム開始時に能力の開放状況などをロード
-        isReleasedAirJump = true;
-        isReleasedTimeControl = true;
-        isReleasedBrrier = false;
-    }
 }

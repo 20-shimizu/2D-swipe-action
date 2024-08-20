@@ -24,7 +24,7 @@ public class TimeManager : MonoBehaviour
     {
         if (!isStopping)
         {
-            if (playerCtrl.IsAiming() && playerCtrl.IsReleasedTimeControl())
+            if (playerCtrl.IsAiming())
             {
                 Time.timeScale = slowRate;
                 Physics2D.Simulate(Time.fixedDeltaTime);
