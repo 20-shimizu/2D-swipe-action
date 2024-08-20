@@ -1665,12 +1665,12 @@ TextureImporter:
       Amulets 64x64 Outline_46: 966659196
       Amulets 64x64 Outline_47: 1678660017
       Amulets 64x64 Outline_40: 1889101288
-      Amulets 64x64 Outline_9: -834471882
+      Amulets 64x64 Outline_37: 633506152
+      Amulets 64x64 Outline_53: 1647793655
       Amulets 64x64 Outline_24: -652694596
       Amulets 64x64 Outline_23: 873545981
       Amulets 64x64 Outline_17: -485604050
       Amulets 64x64 Outline_20: 597084234
-      Amulets 64x64 Outline_62: 883408535
       Amulets 64x64 Outline_7: 45928510
       Amulets 64x64 Outline_11: 1236918982
       Amulets 64x64 Outline_0: 1852051157
@@ -1695,8 +1695,8 @@ TextureImporter:
       Amulets 64x64 Outline_55: -924023966
       Amulets 64x64 Outline_36: -1012587687
       Amulets 64x64 Outline_39: 185525055
-      Amulets 64x64 Outline_54: 142279618
       Amulets 64x64 Outline_8: 721962526
+      Amulets 64x64 Outline_54: 142279618
       Amulets 64x64 Outline_49: 1398635856
       Amulets 64x64 Outline_43: -697821987
       Amulets 64x64 Outline_50: 1846242564
@@ -1721,10 +1721,10 @@ TextureImporter:
       Amulets 64x64 Outline_21: -1498726920
       Amulets 64x64 Outline_34: -1713707625
       Amulets 64x64 Outline_10: -212181243
-      Amulets 64x64 Outline_19: 443963733
-      Amulets 64x64 Outline_53: 1647793655
+      Amulets 64x64 Outline_9: -834471882
       Amulets 64x64 Outline_6: 197729866
-      Amulets 64x64 Outline_37: 633506152
+      Amulets 64x64 Outline_19: 443963733
+      Amulets 64x64 Outline_62: 883408535
       Amulets 64x64 Outline_44: -1523298016
   spritePackingTag: 
   pSDRemoveMatte: 0
