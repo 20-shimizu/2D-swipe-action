@@ -486,7 +486,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 3
   m_AngularDrag: 0
-  m_GravityScale: 0.5
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -520,10 +520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0258b10b26c53844d8e1e8ece602fa74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAiming: 0
   pushPower: 0.04
   thresSwipeSpeed: 10000
-  thresMoveSpeed: 5
+  thresMoveSpeed: 7
   attackDamage: 10
   pushedPower: 300
   attackingSpeed: 50

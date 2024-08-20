@@ -14,9 +14,6 @@ public class PlayerController : MonoBehaviour
         GAMEOVER, // 死亡時
     }
 
-    [HideInInspector]
-    public bool isAiming = false;
-
     [SerializeField]
     private float pushPower;
     // スワイプスピードの閾値、超えるとプレイヤーが動く
@@ -53,6 +50,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 pushForce = Vector2.zero;
     private Vector2 prevTouchPos = Vector2.zero;
     private Vector2 maxSwipeSpeedVec = Vector2.zero;
+    private bool isSwiping = false;
     private float prevVelocity = 0.0f;
     // 敵に攻撃した時点の速度ベクトル
     private Vector2 enteringEnemyVelocityVec = Vector2.zero;
@@ -66,6 +64,11 @@ public class PlayerController : MonoBehaviour
 
     // 右向いてるときはtrue
     private bool isFacingRight = true;
+
+    // プレイヤーの能力の解放状態
+    private bool isReleasedAirJump;
+    private bool isReleasedTimeControl;
+    private bool isReleasedBrrier;
     void Start()
     {
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
@@ -76,11 +79,11 @@ public class PlayerController : MonoBehaviour
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
         hpBar.maxValue = hp;
         hpBar.value = hp;
+        LoadParameter();
     }
 
     void Update()
     {
-        isAiming = state == PLAYERSTATE.AIM;
         switch (state)
         {
             case PLAYERSTATE.IDLE:
@@ -105,26 +108,37 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            state = PLAYERSTATE.AIM;
-            prevTouchPos = Input.mousePosition;
+            if (isReleasedAirJump || groundCheck.IsGround())
+            {
+                state = PLAYERSTATE.AIM;
+                prevTouchPos = Input.mousePosition;
+                isSwiping = true;
+            }
         }
         else if (Input.GetMouseButton(0))
         {
-            Vector2 speedVec = ((Vector2)Input.mousePosition - prevTouchPos) / Time.deltaTime;
-            if (speedVec.magnitude > maxSwipeSpeedVec.magnitude && speedVec.magnitude > thresSwipeSpeed) maxSwipeSpeedVec = speedVec;
-            prevTouchPos = Input.mousePosition;
+            if (isSwiping)
+            {
+                Vector2 speedVec = ((Vector2)Input.mousePosition - prevTouchPos) / Time.unscaledDeltaTime;
+                if (speedVec.magnitude > maxSwipeSpeedVec.magnitude && speedVec.magnitude > thresSwipeSpeed) maxSwipeSpeedVec = speedVec;
+                prevTouchPos = Input.mousePosition;
+            }
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            pushForce = pushPower * maxSwipeSpeedVec;
-            if (isFacingRight != pushForce.x > 0.0f && pushForce.x != 0.0f)
+            if (isSwiping)
             {
-                isFacingRight = !isFacingRight;
-                Vector3 scale = transform.localScale;
-                scale.x = -scale.x;
-                transform.localScale = scale;
+                pushForce = pushPower * maxSwipeSpeedVec;
+                if (isFacingRight != pushForce.x > 0.0f && pushForce.x != 0.0f)
+                {
+                    isFacingRight = !isFacingRight;
+                    Vector3 scale = transform.localScale;
+                    scale.x = -scale.x;
+                    transform.localScale = scale;
+                }
+                maxSwipeSpeedVec = Vector2.zero;
+                isSwiping = false;
             }
-            maxSwipeSpeedVec = Vector2.zero;
         }
         else if (state != PLAYERSTATE.ATTACK)
         {
@@ -277,5 +291,21 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         stageManager.GameOver();
+    }
+
+    public bool IsAiming() { return state == PLAYERSTATE.AIM; }
+
+    public bool IsReleasedTimeControl() { return isReleasedTimeControl; }
+
+    private void SaveParameter()
+    {
+        // (TODO) ステージクリア時かゲーム終了時に能力の開放状況などをセーブ
+    }
+    private void LoadParameter()
+    {
+        // (TODO) ゲーム開始時に能力の開放状況などをロード
+        isReleasedAirJump = true;
+        isReleasedTimeControl = true;
+        isReleasedBrrier = false;
     }
 }
