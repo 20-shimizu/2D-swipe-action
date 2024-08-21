@@ -119,7 +119,7 @@ public class BossController : EnemyController
     }
 
     // animation event から実行、ゴールアイテムの出現を開始する
-    private void FinishDieAnimation()
+    protected override void FinishDieAnimation()
     {
         stageManager.AppearGoalItem();
         Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);

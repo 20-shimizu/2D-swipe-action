@@ -29,4 +29,10 @@ public class Enemy2Controller : EnemyController
         b3.GetComponent<BulletController>().Initialize(bulletSpeed, angle - 30.0f);
         // anim.SetTrigger("Attack");
     }
+
+    protected override void Die()
+    {
+        CancelInvoke();
+        anim.SetTrigger("Die");
+    }
 }
