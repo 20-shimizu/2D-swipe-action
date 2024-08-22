@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     protected float hp;
     protected Animator anim;
+    protected Rigidbody2D rb;
 
     public virtual void Damage(float damage)
     {

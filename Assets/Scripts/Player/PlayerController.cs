@@ -218,7 +218,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "NormalEnemy" || other.gameObject.tag == "BossEnemy")
         {
             timeManager.HitStop(0.1f);
-            if (state == PLAYERSTATE.MOVE)
+            if (state == PLAYERSTATE.MOVE || state == PLAYERSTATE.ATTACK)
             {
                 state = PLAYERSTATE.ATTACK;
                 enteringEnemyVelocityVec = rb.velocity;

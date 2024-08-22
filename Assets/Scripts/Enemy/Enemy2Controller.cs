@@ -10,12 +10,28 @@ public class Enemy2Controller : EnemyController
     [SerializeField]
     private float bulletSpeed;
 
+    private float angle = 0.0f;
+    private Vector2 posOffset = Vector2.zero;
+    private Vector2 startPos;
+    private float xAmplitude = 3.0f;
+    private float yAmplitude = 1.0f;
+    private float timeScale = 0.7f;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         shotPoint = transform.Find("ShotPoint").gameObject;
-        InvokeRepeating("Attack", 0f, 3.0f);
+        InvokeRepeating("Attack", 0f, 5.0f);
+        startPos = transform.position;
+    }
+
+    void FixedUpdate()
+    {
+        angle += Time.fixedDeltaTime * timeScale;
+        posOffset.x = Mathf.Sin(angle) * xAmplitude;
+        posOffset.y = Mathf.Sin(angle * 2.0f) * yAmplitude;
+        transform.position = startPos + posOffset;
     }
 
     protected override void Attack()
