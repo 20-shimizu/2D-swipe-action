@@ -16,7 +16,7 @@ TagManager:
   - ImportantItem
   - Water
   - UI
-  - EnemyCollision
+  - PlayerThroughCollision
   - Player
   - 
   - 
