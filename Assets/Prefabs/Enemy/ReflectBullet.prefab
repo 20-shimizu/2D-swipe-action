@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7779942038041212742}
   - component: {fileID: 3033174703196769064}
   - component: {fileID: 3485522506308194425}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ReflectBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -172,6 +172,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.23618396, y: -0.0072449595}
+  m_Offset: {x: 0.21833153, y: -0.0072449595}
   serializedVersion: 2
-  m_Radius: 0.06287728
+  m_Radius: 0.045024857
