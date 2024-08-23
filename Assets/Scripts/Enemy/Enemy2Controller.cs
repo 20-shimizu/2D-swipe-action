@@ -21,6 +21,7 @@ public class Enemy2Controller : EnemyController
     void Start()
     {
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         shotPoint = transform.Find("ShotPoint").gameObject;
         InvokeRepeating("Attack", 0f, 5.0f);
         startPos = transform.position;

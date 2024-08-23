@@ -11,8 +11,8 @@ public class Enemy1Controller : EnemyController
     private float bulletSpeed;
 
     private float time = 0.0f;
-    private float yOffset = 0.0f;
-    private float startY;
+    private float xOffset = 0.0f;
+    private float startX;
     private float amplitude = 1.0f;
     private float frequency = 0.2f;
     private float stopDuration = 1.0f;
@@ -24,7 +24,7 @@ public class Enemy1Controller : EnemyController
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         shotPoint = transform.Find("ShotPoint").gameObject;
-        startY = transform.position.y;
+        startX = transform.position.x;
     }
 
     void FixedUpdate()
@@ -33,8 +33,8 @@ public class Enemy1Controller : EnemyController
         {
             time += Time.fixedDeltaTime;
 
-            yOffset = Mathf.Sin(2 * Mathf.PI * frequency * time) * amplitude;
-            rb.position = new Vector2(rb.position.x, startY + yOffset);
+            xOffset = Mathf.Sin(2 * Mathf.PI * frequency * time) * amplitude;
+            rb.position = new Vector2(startX + xOffset, rb.position.y);
 
             if (Mathf.Abs(Mathf.Cos(2 * Mathf.PI * frequency * time)) < 0.02f)
             {
