@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossController : EnemyController
+public class BossEnemy2Controller : EnemyController
 {
     private enum BossState
     {
+        BEFORE_ATTACK,
         ATTACK,
         MOVE,
+        DIE,
     }
-    private BossState state = BossState.ATTACK;
-
+    private BossState state = BossState.BEFORE_ATTACK;
     private GameObject shotPoint;
     [SerializeField]
     private GameObject bullet;
@@ -21,13 +22,11 @@ public class BossController : EnemyController
     private StageManager stageManager;
     private GameObject mainCamera;
     private MainCameraController cameraController;
-    private float attackCount = 0.0f;
-    private float attackAngleOffset = 0.0f;
-
+    private float count = 0.0f;
     private Vector2 pos;
     private Vector2 nextPos;
     private Collider2D moveArea;
-
+    // Start is called before the first frame update
     void Start()
     {
         shotPoint = transform.Find("ShotPoint").gameObject;
@@ -39,59 +38,57 @@ public class BossController : EnemyController
         mainCamera = GameObject.Find("Main Camera");
         pos = transform.position;
         moveArea = GameObject.Find("BossBattleArea").GetComponent<Collider2D>();
-        InvokeRepeating("Attack", 0f, 0.3f);
-        anim.SetTrigger("Attack");
+        anim.SetBool("Attack", true);
     }
+
+    // Update is called once per frame
     void Update()
     {
         switch (state)
         {
-            case BossState.ATTACK:
-                attackCount += Time.deltaTime;
-                if (attackCount > 1.4f)
+            case BossState.BEFORE_ATTACK:
+                count += Time.deltaTime;
+                if (count > 2.0f)
                 {
-                    state = BossState.MOVE;
-                    attackCount = 0.0f;
+                    count = 0.0f;
+                    InvokeRepeating("Attack", 0f, 0.1f);
+                    state = BossState.ATTACK;
+                }
+                break;
+            case BossState.ATTACK:
+                count += Time.deltaTime;
+                if (count > 1.5f)
+                {
+                    count = 0.0f;
                     CancelInvoke();
                     GenerateNextPos();
+                    anim.SetBool("Attack", false);
+                    state = BossState.MOVE;
                 }
                 break;
             case BossState.MOVE:
-                attackCount += Time.deltaTime;
-                pos += (nextPos - pos) * 0.05f;
+                count += Time.deltaTime;
+                pos += (nextPos - pos) * 0.01f;
                 transform.position = pos;
-                if (attackCount > 3.0f)
+                if (count > 5.0f)
                 {
-                    state = BossState.ATTACK;
-                    attackCount = 0.0f;
-                    InvokeRepeating("Attack", 0f, 0.3f);
-                    anim.SetTrigger("Attack");
+                    state = BossState.BEFORE_ATTACK;
+                    count = 0.0f;
+                    anim.SetBool("Attack", true);
                 }
                 break;
-        }
-
-        if (transform.localScale.x > 0.0f)
-        {
-            hpBar.transform.localScale = new Vector3(0.01f, 0.01f, 1.0f);
-        }
-        else
-        {
-            hpBar.transform.localScale = new Vector3(-0.01f, 0.01f, 1.0f);
+            case BossState.DIE:
+            default:
+                break;
         }
     }
 
     protected override void Attack()
     {
-        for (int angle = 0; angle < 360; angle += 90)
-        {
-            ShotBullet((float)angle + attackAngleOffset);
-        }
-        attackAngleOffset += 30.0f;
-    }
-    private void ShotBullet(float angleDeg)
-    {
-        GameObject b = Instantiate(bullet, shotPoint.transform.position, transform.rotation);
-        b.GetComponent<BulletController>().Initialize(10.0f, angleDeg);
+        GameObject b1 = Instantiate(bullet, shotPoint.transform.position, transform.rotation);
+        GameObject b2 = Instantiate(bullet, shotPoint.transform.position, transform.rotation);
+        b1.GetComponent<BulletController>().Initialize(Random.Range(9.0f, 12.0f), Random.Range(60.0f, 80.0f), gravity: 1.0f);
+        b2.GetComponent<BulletController>().Initialize(Random.Range(9.0f, 12.0f), Random.Range(100.0f, 120.0f), gravity: 1.0f);
     }
 
     private void GenerateNextPos()
@@ -109,16 +106,13 @@ public class BossController : EnemyController
         hpBar.value = hp;
         if (hp <= 0.0f) Die();
     }
-
-    // 死亡 → 死亡演出,state:BOSS_DYING → アイテム出現演出,state:GOAL_ITEM_APPEARING → 取得した能力の説明ダイアログ表示,ボタン押してマップへ戻る
     protected override void Die()
     {
+        state = BossState.DIE;
         stageManager.DieBossEnemy();
         CancelInvoke();
         anim.SetTrigger("Die");
     }
-
-    // animation event から実行、ゴールアイテムの出現を開始する
     protected override void FinishDieAnimation()
     {
         stageManager.AppearGoalItem();
