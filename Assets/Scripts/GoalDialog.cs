@@ -30,18 +30,22 @@ public class GoalDialog : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.SetActive(false);
+    }
+
+    void OnEnable()
+    {
         goalDialog = transform.Find("Canvas/GoalDialog").gameObject;
         itemImage = goalDialog.transform.Find("Item").gameObject.GetComponent<Image>();
         itemName = itemImage.transform.Find("ItemNameText").gameObject.GetComponent<Text>();
         itemDetail = itemImage.transform.Find("ItemDetailText").gameObject.GetComponent<Text>();
         confirmButton = goalDialog.transform.Find("ConfirmButton").gameObject.GetComponent<Button>();
         confirmButton.onClick.AddListener(OnClickConfirmButton);
-        gameObject.SetActive(false);
-    }
-
-    void OnEnable()
-    {
+        scale = new Vector2(0.0f, 100.0f);
         goalDialog.transform.localScale = scale;
+        alpha = 0.0f;
+        imageColor = new Color32(255, 255, 255, 0);
+        textColor = new Color32(0, 0, 0, 0);
         itemImage.color = imageColor;
         itemName.color = textColor;
         itemDetail.color = textColor;

@@ -53,7 +53,6 @@ public class BossEnemy3Controller : EnemyController
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(pivot.transform.position.x - transform.position.x);
         switch (state)
         {
             case BossState.IDLE:
@@ -82,7 +81,7 @@ public class BossEnemy3Controller : EnemyController
                 {
                     count = 0.0f;
                     rb.velocity = Vector2.zero;
-                    if (Random.Range(0.0f, 1.0f) > 0.8f) anim.SetTrigger("Shot");
+                    if (Random.Range(0.0f, 1.0f) > 0.5f) anim.SetTrigger("Shot");
                     else anim.SetTrigger("Attack");
                     state = BossState.ATTACK;
                 }
