@@ -24,7 +24,8 @@ public class GoalItem : MonoBehaviour
     private Vector2 pos;
     private float time = 0.0f;
 
-    private GoalDialog goalDialog;
+    // private GoalDialog goalDialog;
+    private StageDialogManager stageDialogManager;
 
     void Start()
     {
@@ -34,7 +35,8 @@ public class GoalItem : MonoBehaviour
         spotLight = transform.Find("SpotLight").gameObject.GetComponent<Light2D>();
         spotLight.intensity = 0.0f;
         pos = transform.position;
-        goalDialog = GameObject.Find("StageDialogManager").GetComponent<GoalDialog>();
+        // goalDialog = GameObject.Find("StageDialogManager").GetComponent<GoalDialog>();
+        stageDialogManager = GameObject.Find("StageDialogManager").GetComponent<StageDialogManager>();
     }
     void Update()
     {
@@ -70,7 +72,8 @@ public class GoalItem : MonoBehaviour
                 }
                 else
                 {
-                    goalDialog.AppearGoalDialog();
+                    // goalDialog.AppearGoalDialog();
+                    stageDialogManager.ShowDialog("GoalDialog");
                     state = GoalItemState.SHOW_DIALOG;
                 }
                 break;

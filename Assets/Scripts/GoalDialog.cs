@@ -36,6 +36,17 @@ public class GoalDialog : MonoBehaviour
         itemDetail = itemImage.transform.Find("ItemDetailText").gameObject.GetComponent<Text>();
         confirmButton = goalDialog.transform.Find("ConfirmButton").gameObject.GetComponent<Button>();
         confirmButton.onClick.AddListener(OnClickConfirmButton);
+        gameObject.SetActive(false);
+    }
+
+    void OnEnable()
+    {
+        goalDialog.transform.localScale = scale;
+        itemImage.color = imageColor;
+        itemName.color = textColor;
+        itemDetail.color = textColor;
+        confirmButton.gameObject.SetActive(false);
+        state = GoalDialogState.OPEN;
     }
 
     // Update is called once per frame
@@ -79,19 +90,20 @@ public class GoalDialog : MonoBehaviour
         }
     }
 
-    public void AppearGoalDialog()
-    {
-        goalDialog.SetActive(true);
-        goalDialog.transform.localScale = scale;
-        itemImage.color = imageColor;
-        itemName.color = textColor;
-        itemDetail.color = textColor;
-        confirmButton.gameObject.SetActive(false);
-        state = GoalDialogState.OPEN;
-    }
+    // public void AppearGoalDialog()
+    // {
+    //     goalDialog.SetActive(true);
+    //     goalDialog.transform.localScale = scale;
+    //     itemImage.color = imageColor;
+    //     itemName.color = textColor;
+    //     itemDetail.color = textColor;
+    //     confirmButton.gameObject.SetActive(false);
+    //     state = GoalDialogState.OPEN;
+    // }
 
     public void OnClickConfirmButton()
     {
+        gameObject.SetActive(false);
         SceneManager.LoadScene("MapScene");
     }
 }

@@ -80,6 +80,51 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Select Stage
+--- !u!1 &481764833073787226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6686374118839682467}
+  - component: {fileID: 2115665904597344875}
+  m_Layer: 0
+  m_Name: GoalDialog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6686374118839682467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481764833073787226}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2962731666799099259}
+  m_Father: {fileID: 2962731666103464217}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2115665904597344875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481764833073787226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 302268cccbf842047b8be1996bbd9d88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2645215347385154165
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2962731665547957141
 RectTransform:
   m_ObjectHideFlags: 0
@@ -649,7 +694,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2962731666103464217}
-  - component: {fileID: 2962731666103464222}
   - component: {fileID: 5263555646103697745}
   m_Layer: 0
   m_Name: StageDialogManager
@@ -670,23 +714,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2962731666799099259}
   - {fileID: 5115554534633444685}
+  - {fileID: 6686374118839682467}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2962731666103464222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2962731666103464219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 302268cccbf842047b8be1996bbd9d88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5263555646103697745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,6 +734,8 @@ MonoBehaviour:
   dialogs:
   - name: GameOverDialog
     dialogObject: {fileID: 7293412223468576716}
+  - name: GoalDialog
+    dialogObject: {fileID: 481764833073787226}
 --- !u!1 &2962731666728017279
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,7 +848,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2962731665547957141}
-  m_Father: {fileID: 2962731666103464217}
+  m_Father: {fileID: 6686374118839682467}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1218,7 +1252,7 @@ Transform:
   m_Children:
   - {fileID: 5030876510358432514}
   m_Father: {fileID: 2962731666103464217}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &554935767
 MonoBehaviour:

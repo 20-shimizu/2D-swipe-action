@@ -107,4 +107,24 @@ public class BossEnemy3Controller : EnemyController
         state = BossState.IDLE;
         anim.SetTrigger("Idle");
     }
+
+    public override void Damage(float damage)
+    {
+        hp -= damage;
+        hpBar.value = hp;
+        if (hp <= 0.0f) Die();
+    }
+    protected override void Die()
+    {
+        state = BossState.DIE;
+        stageManager.DieBossEnemy();
+        CancelInvoke();
+        anim.SetTrigger("Die");
+    }
+    protected override void FinishDieAnimation()
+    {
+        stageManager.AppearGoalItem();
+        Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        Destroy(gameObject);
+    }
 }
