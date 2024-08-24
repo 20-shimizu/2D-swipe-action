@@ -240,6 +240,14 @@ public class PlayerController : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+        else if (other.gameObject.tag == "Slash")
+        {
+            if (!isInvincible)
+            {
+                Damage(1.0f);
+                KnockBack(transform.position - other.transform.position, pushedPower);
+            }
+        }
         else if (other.gameObject.tag == "Trap")
         {
             if (!isInvincible)

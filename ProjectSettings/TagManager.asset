@@ -9,6 +9,7 @@ TagManager:
   - NormalEnemy
   - BossEnemy
   - Trap
+  - Slash
   layers:
   - Default
   - TransparentFX
