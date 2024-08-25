@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 283096507}
   - component: {fileID: 283096510}
   m_Layer: 5
-  m_Name: PoseButton
+  m_Name: PauseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -649,7 +649,7 @@ GameObject:
   - component: {fileID: 860394685}
   - component: {fileID: 860394684}
   m_Layer: 8
-  m_Name: PoseDialog
+  m_Name: PauseDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1682,7 +1682,7 @@ MonoBehaviour:
     dialogObject: {fileID: 7293412223468576716}
   - name: GoalDialog
     dialogObject: {fileID: 481764833073787226}
-  - name: PoseDialog
+  - name: PauseDialog
     dialogObject: {fileID: 860394683}
 --- !u!1 &2962731666728017279
 GameObject:
