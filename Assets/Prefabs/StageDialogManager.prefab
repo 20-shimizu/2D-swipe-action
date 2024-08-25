@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7195214358018673431}
   - component: {fileID: 1556886138645012659}
   - component: {fileID: 8542714869809220316}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6686374118839682467}
   - component: {fileID: 2115665904597344875}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GoalDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 3773280625457490000}
   - component: {fileID: 1035955852411322355}
   - component: {fileID: 3918528546088879367}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StageSelectButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 2962731665159561381}
   - component: {fileID: 2962731665159561403}
   - component: {fileID: 2962731665159561402}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 2962731665547957141}
   - component: {fileID: 2962731665547957096}
   - component: {fileID: 2962731665547957099}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: GoalDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ GameObject:
   - component: {fileID: 2962731665618650505}
   - component: {fileID: 2962731665618650511}
   - component: {fileID: 2962731665618650510}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +495,7 @@ GameObject:
   - component: {fileID: 2962731665760637849}
   - component: {fileID: 2962731665760637848}
   - component: {fileID: 2962731665760637851}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: ConfirmButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -616,7 +616,7 @@ GameObject:
   - component: {fileID: 2962731666019681740}
   - component: {fileID: 2962731666019681730}
   - component: {fileID: 2962731666019681741}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: ItemDetailText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -695,7 +695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2962731666103464217}
   - component: {fileID: 5263555646103697745}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StageDialogManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -747,7 +747,7 @@ GameObject:
   - component: {fileID: 2962731666728017276}
   - component: {fileID: 2962731666728017266}
   - component: {fileID: 2962731666728017277}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: ItemNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -828,7 +828,7 @@ GameObject:
   - component: {fileID: 2962731666799099262}
   - component: {fileID: 2962731666799099257}
   - component: {fileID: 2962731666799099256}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -929,7 +929,7 @@ GameObject:
   - component: {fileID: 2407068711691870859}
   - component: {fileID: 4132935340981867417}
   - component: {fileID: 188005700388981074}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1030,7 +1030,7 @@ GameObject:
   - component: {fileID: 2311473761164104840}
   - component: {fileID: 4308232777760838184}
   - component: {fileID: 2899195655916860493}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1111,7 +1111,7 @@ GameObject:
   - component: {fileID: 2286344472642441672}
   - component: {fileID: 9080725754847109934}
   - component: {fileID: 1316882667158871006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RetryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1231,7 +1231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5115554534633444685}
   - component: {fileID: 554935767}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameOverDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
