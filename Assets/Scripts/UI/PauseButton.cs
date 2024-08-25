@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PoseButton : MonoBehaviour
+public class PauseButton : MonoBehaviour
 {
     private StageManager stageManager;
     private StageDialogManager stageDialogManager;
@@ -36,6 +36,6 @@ public class PoseButton : MonoBehaviour
     private void OnClickButton()
     {
         stageManager.Pose();
-        stageDialogManager.ShowDialog("PoseDialog");
+        stageDialogManager.ShowDialog("PauseDialog");
     }
 }

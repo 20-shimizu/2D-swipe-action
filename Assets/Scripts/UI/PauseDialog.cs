@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PoseDialog : MonoBehaviour
+public class PauseDialog : MonoBehaviour
 {
     private GameObject dialog;
     private Button closeButton;
