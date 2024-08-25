@@ -115,6 +115,8 @@ public class BossEnemy3Controller : EnemyController
     }
     protected override void Die()
     {
+        // ボス死亡後は全体の時間を止めるが、アニメーションは止めない
+        anim.updateMode = AnimatorUpdateMode.UnscaledTime;
         state = BossState.DIE;
         stageManager.DieBossEnemy();
         CancelInvoke();

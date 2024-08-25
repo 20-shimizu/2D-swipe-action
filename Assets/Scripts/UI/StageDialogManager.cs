@@ -13,21 +13,21 @@ public class StageDialogManager : MonoBehaviour
     public List<DialogEntry> dialogs = new List<DialogEntry>();
     private GameObject currentActiveDialog;
 
-    // シングルトンインスタンス
-    public static StageDialogManager Instance { get; private set; }
+    // // シングルトンインスタンス
+    // public static StageDialogManager Instance { get; private set; }
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    // private void Awake()
+    // {
+    //     if (Instance == null)
+    //     {
+    //         Instance = this;
+    //         DontDestroyOnLoad(gameObject);
+    //     }
+    //     else
+    //     {
+    //         Destroy(gameObject);
+    //     }
+    // }
 
     public void ShowDialog(string dialogName)
     {

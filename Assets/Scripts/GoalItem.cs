@@ -35,19 +35,18 @@ public class GoalItem : MonoBehaviour
         spotLight = transform.Find("SpotLight").gameObject.GetComponent<Light2D>();
         spotLight.intensity = 0.0f;
         pos = transform.position;
-        // goalDialog = GameObject.Find("StageDialogManager").GetComponent<GoalDialog>();
         stageDialogManager = GameObject.Find("StageDialogManager").GetComponent<StageDialogManager>();
     }
     void Update()
     {
-        bloomIntensity = Mathf.PingPong(Time.time / 0.1f, 5.0f) + 5.0f;
+        bloomIntensity = Mathf.PingPong(Time.unscaledTime / 0.1f, 5.0f) + 5.0f;
         postProcessController.SetBloomIntensity(bloomIntensity);
         switch (state)
         {
             case GoalItemState.DESCENT:
                 if (transform.position.y > mainCamera.transform.position.y)
                 {
-                    pos.y -= appearSpeed * Time.deltaTime;
+                    pos.y -= appearSpeed * Time.unscaledDeltaTime;
                     transform.position = pos;
                 }
                 else
@@ -58,7 +57,7 @@ public class GoalItem : MonoBehaviour
             case GoalItemState.GLOW_UP:
                 if (spotLight.intensity < endLightIntensity)
                 {
-                    spotLight.intensity = spotLight.intensity + lightSpeed * Time.deltaTime;
+                    spotLight.intensity = spotLight.intensity + lightSpeed * Time.unscaledDeltaTime;
                 }
                 else
                 {
@@ -68,11 +67,10 @@ public class GoalItem : MonoBehaviour
             case GoalItemState.GLOWING:
                 if (time < 3.0f)
                 {
-                    time += Time.deltaTime;
+                    time += Time.unscaledDeltaTime;
                 }
                 else
                 {
-                    // goalDialog.AppearGoalDialog();
                     stageDialogManager.ShowDialog("GoalDialog");
                     state = GoalItemState.SHOW_DIALOG;
                 }

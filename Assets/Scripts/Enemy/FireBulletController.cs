@@ -25,7 +25,7 @@ public class FireBulletController : BulletController
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
         time += Time.deltaTime;
-        if (time > 5.0f || !stageManager.isOnGame)
+        if (time > 5.0f || !(stageManager.IsOnGame() || stageManager.IsPose()))
         {
             Destroy(gameObject);
         }
