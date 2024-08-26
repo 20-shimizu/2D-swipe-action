@@ -242,8 +242,10 @@ public class PlayerController : MonoBehaviour
             else if (state != PLAYERSTATE.ATTACK && !isInvincible)
             {
                 Damage();
-                KnockBack(transform.position - other.transform.position, pushedPower);
-                // rb.AddForce((transform.position - other.transform.position) * pushedPower);
+                if (other.transform.Find("Pivot") == null)
+                    KnockBack(transform.position - other.transform.position, pushedPower);
+                else
+                    KnockBack(transform.position - other.transform.Find("Pivot").transform.position, pushedPower);
             }
         }
         else if (other.gameObject.tag == "Bullet")
@@ -259,7 +261,10 @@ public class PlayerController : MonoBehaviour
             if (!isInvincible)
             {
                 Damage();
-                KnockBack(transform.position - other.transform.position, pushedPower);
+                if (other.transform.parent.Find("Pivot") == null)
+                    KnockBack(transform.position - other.transform.parent.transform.position, pushedPower);
+                else
+                    KnockBack(transform.position - other.transform.parent.Find("Pivot").transform.position, pushedPower);
             }
         }
         else if (other.gameObject.tag == "Trap")
@@ -305,6 +310,11 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         stageManager.GameOver();
+    }
+
+    public void AddForce(float force, Vector2 direction)
+    {
+        rb.AddForce(direction.normalized * force);
     }
 
     public bool IsAiming() { return state == PLAYERSTATE.AIM; }

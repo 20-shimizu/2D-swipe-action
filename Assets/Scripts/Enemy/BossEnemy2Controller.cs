@@ -93,7 +93,7 @@ public class BossEnemy2Controller : EnemyController
 
     private void GenerateNextPos()
     {
-        nextPos = new Vector2(transform.position.x + Random.Range(-4.0f, 4.0f), transform.position.y + Random.Range(-4.0f, 4.0f));
+        nextPos = new Vector2(transform.position.x + Random.Range(-8.0f, 8.0f), transform.position.y + Random.Range(-8.0f, 8.0f));
         while (!moveArea.OverlapPoint(nextPos))
         {
             nextPos = new Vector2(transform.position.x + Random.Range(-8.0f, 8.0f), transform.position.y + Random.Range(-8.0f, 8.0f));
@@ -108,6 +108,8 @@ public class BossEnemy2Controller : EnemyController
     }
     protected override void Die()
     {
+        // ボス死亡後は全体の時間を止めるが、アニメーションは止めない
+        anim.updateMode = AnimatorUpdateMode.UnscaledTime;
         state = BossState.DIE;
         stageManager.DieBossEnemy();
         CancelInvoke();
