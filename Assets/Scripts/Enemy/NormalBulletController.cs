@@ -20,7 +20,7 @@ public class NormalBulletController : BulletController
     void Update()
     {
         time += Time.deltaTime;
-        if (time > 5.0f || !stageManager.isOnGame)
+        if (time > 5.0f || !(stageManager.IsOnGame() || stageManager.IsPose()))
         {
             Destroy(gameObject);
         }

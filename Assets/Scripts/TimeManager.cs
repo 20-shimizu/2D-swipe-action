@@ -18,6 +18,7 @@ public class TimeManager : MonoBehaviour
         Physics2D.simulationMode = SimulationMode2D.Script;
         playerCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
         postProcessCtrl = GameObject.Find("GlobalVolume").GetComponent<PostProcessController>();
+        Time.timeScale = 1.0f;
     }
 
     void FixedUpdate()
@@ -43,6 +44,8 @@ public class TimeManager : MonoBehaviour
     public void TimeStop(bool isStop)
     {
         isStopping = isStop;
+        if (isStop) Time.timeScale = 0.0f;
+        else Time.timeScale = 1.0f;
     }
     public bool IsStopping() { return isStopping; }
 

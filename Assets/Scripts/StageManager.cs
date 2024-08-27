@@ -8,6 +8,7 @@ public class StageManager : MonoBehaviour
     private enum STATE
     {
         ON_GAME, // ゲーム中、操作可能
+        POSE,
         BOSS_DYING,
         GOAL_ITEM_APPEARING, // ゴールアイテムが出てくる演出中
         GAME_OVER,
@@ -20,7 +21,8 @@ public class StageManager : MonoBehaviour
     private GameObject player;
     private GameObject boss;
 
-    public bool isOnGame = false;
+    public bool IsOnGame() { return state == STATE.ON_GAME; }
+    public bool IsPose() { return state == STATE.POSE; }
 
     void Start()
     {
@@ -34,13 +36,15 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
-        isOnGame = state == STATE.ON_GAME;
-        // 各stateでカメラが何を追うかを指定する
         switch (state)
         {
             case STATE.ON_GAME:
+                timeManager.TimeStop(false);
                 if (player != null)
                     cameraController.SetDesiredPos(player.transform.position, true);
+                break;
+            case STATE.POSE:
+                timeManager.TimeStop(true);
                 break;
             case STATE.BOSS_DYING:
                 if (boss != null)
@@ -58,6 +62,14 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    public void OnGame()
+    {
+        state = STATE.ON_GAME;
+    }
+    public void Pose()
+    {
+        state = STATE.POSE;
+    }
     public void AppearGoalItem()
     {
         state = STATE.GOAL_ITEM_APPEARING;

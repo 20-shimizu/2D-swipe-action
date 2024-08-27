@@ -34,7 +34,7 @@ public class WaveBulletController : BulletController
         if (isReverse) waveVelocity = perpendicular * amplitude * Mathf.Cos(frequency * time + Mathf.PI);
         rb.velocity = baseVelocity + waveVelocity;
 
-        if (time > 5.0f || !stageManager.isOnGame)
+        if (time > 5.0f || !(stageManager.IsOnGame() || stageManager.IsPose()))
         {
             Destroy(gameObject);
         }

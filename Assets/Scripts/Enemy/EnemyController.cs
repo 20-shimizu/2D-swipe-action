@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     protected float hp;
     protected Animator anim;
+    protected Rigidbody2D rb;
 
     public virtual void Damage(float damage)
     {
@@ -15,7 +16,14 @@ public class EnemyController : MonoBehaviour
         if (hp <= 0.0f) Die();
     }
 
+    // animation eventから呼び出し
     protected virtual void Die()
+    {
+        anim.SetTrigger("Die");
+    }
+
+    // animation event から実行
+    protected virtual void FinishDieAnimation()
     {
         Destroy(gameObject);
     }
