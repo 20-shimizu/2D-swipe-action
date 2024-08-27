@@ -31,6 +31,7 @@ public class BossEnemy1Controller : EnemyController
 
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         shotPoint = transform.Find("ShotPoint").gameObject;
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
         hpBar.maxValue = hp;
@@ -86,6 +87,7 @@ public class BossEnemy1Controller : EnemyController
 
     protected override void Attack()
     {
+        audioManager.PlaySE("FireBullet");
         for (int angle = 0; angle < 360; angle += 90)
         {
             ShotBullet((float)angle + attackAngleOffset);
@@ -123,6 +125,12 @@ public class BossEnemy1Controller : EnemyController
         stageManager.DieBossEnemy();
         CancelInvoke();
         anim.SetTrigger("Die");
+    }
+
+    // animation event から実行
+    private void PlayExplodeSE()
+    {
+        audioManager.PlaySE("BossEnemyExplode");
     }
 
     // animation event から実行、ゴールアイテムの出現を開始する

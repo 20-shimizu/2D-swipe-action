@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     protected float hp;
     protected Animator anim;
     protected Rigidbody2D rb;
+    protected AudioManager audioManager;
 
     public virtual void Damage(float damage)
     {

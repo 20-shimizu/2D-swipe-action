@@ -35,6 +35,7 @@ public class BossEnemy3Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         attackCollider = transform.Find("AttackCollider").gameObject;
         player = GameObject.Find("Player");
         attackCollider.SetActive(false);
@@ -94,7 +95,11 @@ public class BossEnemy3Controller : EnemyController
     }
 
     // animation event から実行
-    private void ActivateAttack() { attackCollider.SetActive(true); }
+    private void ActivateAttack()
+    {
+        attackCollider.SetActive(true);
+        audioManager.PlaySE("SlashAttack");
+    }
     private void ActivateShotPoint()
     {
         Instantiate(shotPoint, (Vector2)pivot.transform.position + new Vector2(Random.Range(5.0f, 8.0f), Random.Range(8.0f, 12.0f)), transform.rotation);

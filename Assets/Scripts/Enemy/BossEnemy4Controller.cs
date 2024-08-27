@@ -33,6 +33,7 @@ public class BossEnemy4Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
         hpBar.maxValue = hp;
         hpBar.value = hp;
@@ -74,6 +75,7 @@ public class BossEnemy4Controller : EnemyController
                 {
                     count = 0.0f;
                     anim.SetTrigger("PrepareAttack");
+                    audioManager.PlaySE("BlackHole");
                     blackHole.SetActive(true);
                     state = BossState.PREPARE_ATTACK;
                     isFacingRight = player.transform.position.x > pos.x;
@@ -105,6 +107,7 @@ public class BossEnemy4Controller : EnemyController
     // animation event から実行
     protected override void Attack()
     {
+        audioManager.PlaySE("SlashAttack");
         attackCollider.SetActive(true);
     }
     private void EndAttack()
@@ -133,6 +136,7 @@ public class BossEnemy4Controller : EnemyController
     {
         // ボス死亡後は全体の時間を止めるが、アニメーションは止めない
         anim.updateMode = AnimatorUpdateMode.UnscaledTime;
+        audioManager.PlaySE("BossEnemyFall");
         state = BossState.DIE;
         stageManager.DieBossEnemy();
         CancelInvoke();

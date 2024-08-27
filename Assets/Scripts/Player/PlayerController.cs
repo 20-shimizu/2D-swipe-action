@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    private AudioManager audioManager;
     private enum PLAYERSTATE
     {
         IDLE, // 移動速度が一定以下、攻撃判定なし
@@ -69,6 +70,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -80,7 +82,6 @@ public class PlayerController : MonoBehaviour
         {
             int num = i + 1;
             string gaugeName = "HPBarGauge" + num.ToString();
-            // Debug.Log(gaugeName);
             GameObject bar = transform.Find("HPBar/" + gaugeName).gameObject;
             hpGauges[i] = bar.GetComponent<SpriteRenderer>();
             hpGauges[i].color = hpActiveColor;
@@ -157,11 +158,11 @@ public class PlayerController : MonoBehaviour
 
         if (isFacingRight)
         {
-            hpBar.transform.localScale = new Vector3(0.075f, 0.0625f, 1f);
+            hpBar.transform.localScale = new Vector3(0.075f, 0.04f, 1f);
         }
         else
         {
-            hpBar.transform.localScale = new Vector3(-0.075f, 0.0625f, 1f);
+            hpBar.transform.localScale = new Vector3(-0.075f, 0.04f, 1f);
 
         }
         prevVelocity = rb.velocity.magnitude;
@@ -171,6 +172,7 @@ public class PlayerController : MonoBehaviour
     {
         if (pushForce != Vector2.zero)
         {
+            // audioManager.PlaySE("PlayerMove");
             state = PLAYERSTATE.MOVE;
             rb.velocity = Vector2.zero;
             rb.AddForce(pushForce);
@@ -181,6 +183,7 @@ public class PlayerController : MonoBehaviour
 
     public void Damage()
     {
+        audioManager.PlaySE("PlayerDamage");
         StartCoroutine("Invincible");
         hp -= 1;
         for (int i = 0; i < 3; i++)
@@ -234,6 +237,7 @@ public class PlayerController : MonoBehaviour
             timeManager.HitStop(0.1f);
             if (state == PLAYERSTATE.MOVE || state == PLAYERSTATE.ATTACK)
             {
+                audioManager.PlaySE("PlayerAttack");
                 state = PLAYERSTATE.ATTACK;
                 enteringEnemyVelocityVec = rb.velocity;
                 anim.SetTrigger("Attack");

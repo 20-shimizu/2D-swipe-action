@@ -14,12 +14,14 @@ public class Enemy4Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
     protected override void Attack()
     {
+        audioManager.PlaySE("NormalBullet");
         GameObject b1 = Instantiate(bullet, transform.position, transform.rotation);
         GameObject b2 = Instantiate(bullet, transform.position, transform.rotation);
         b1.GetComponent<BulletController>().Initialize(bulletSpeed, 60.0f, gravity: 1.0f);

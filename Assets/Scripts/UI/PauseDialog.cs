@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseDialog : MonoBehaviour
 {
+    private AudioManager audioManager;
     private GameObject dialog;
     private Button closeButton;
     private Button moveToMapButton;
@@ -13,6 +14,7 @@ public class PauseDialog : MonoBehaviour
 
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         dialog = transform.Find("Canvas/Dialog").gameObject;
         closeButton = dialog.transform.Find("CloseButton").gameObject.GetComponent<Button>();
         moveToMapButton = dialog.transform.Find("MoveToMapButton").gameObject.GetComponent<Button>();
@@ -24,11 +26,13 @@ public class PauseDialog : MonoBehaviour
 
     private void OnClickCloseButton()
     {
+        audioManager.PlaySE("ButtonNegative");
         stageManager.OnGame();
         gameObject.SetActive(false);
     }
     private void OnClickMoveToMapButton()
     {
+        audioManager.PlaySE("ButtonPositive");
         stageManager.OnGame();
         gameObject.SetActive(false);
         SceneManager.LoadScene("MapScene");

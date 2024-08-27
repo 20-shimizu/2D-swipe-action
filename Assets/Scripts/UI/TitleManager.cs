@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
+    private AudioManager audioManager;
     // Start is called before the first frame update
     void Start()
     {
-
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -16,6 +17,7 @@ public class TitleManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            audioManager.PlaySE("ButtonPositive");
             SceneManager.LoadScene("MapScene");
         }
     }
