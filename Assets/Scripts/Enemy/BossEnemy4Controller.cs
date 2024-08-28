@@ -35,6 +35,7 @@ public class BossEnemy4Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
         hpBar.maxValue = hp;
@@ -133,6 +134,7 @@ public class BossEnemy4Controller : EnemyController
         hp -= damage;
         hpBar.value = hp;
         if (hp <= 0.0f) Die();
+        else anim.SetTrigger("Damage");
     }
     protected override void Die()
     {

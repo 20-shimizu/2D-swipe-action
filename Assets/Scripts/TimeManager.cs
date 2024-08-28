@@ -55,8 +55,15 @@ public class TimeManager : MonoBehaviour
     }
     private IEnumerator TimeStopForSeconds(float time)
     {
-        isStopping = true;
-        yield return new WaitForSeconds(time);
-        isStopping = false;
+        TimeStop(true);
+        float elapsedTime = 0.0f;
+        while (elapsedTime < time)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+            TimeStop(true);
+            yield return null;
+        }
+        // yield return new WaitForSeconds(time);
+        TimeStop(false);
     }
 }

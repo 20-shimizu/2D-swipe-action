@@ -37,6 +37,7 @@ public class BossEnemy3Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         attackCollider = transform.Find("AttackCollider").gameObject;
         player = GameObject.Find("Player");
@@ -119,6 +120,7 @@ public class BossEnemy3Controller : EnemyController
         hp -= damage;
         hpBar.value = hp;
         if (hp <= 0.0f) Die();
+        else anim.SetTrigger("Damage");
     }
     protected override void Die()
     {

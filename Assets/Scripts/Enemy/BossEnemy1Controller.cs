@@ -33,6 +33,7 @@ public class BossEnemy1Controller : EnemyController
 
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         shotPoint = transform.Find("ShotPoint").gameObject;
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
@@ -116,6 +117,7 @@ public class BossEnemy1Controller : EnemyController
         hp -= damage;
         hpBar.value = hp;
         if (hp <= 0.0f) Die();
+        else anim.SetTrigger("Damage");
     }
 
     // 死亡 → 死亡演出,state:BOSS_DYING → アイテム出現演出,state:GOAL_ITEM_APPEARING → 取得した能力の説明ダイアログ表示,ボタン押してマップへ戻る
