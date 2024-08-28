@@ -16,6 +16,8 @@ public class BossEnemy4Controller : EnemyController
     private BossState state = BossState.IDLE;
     [SerializeField]
     private GameObject dropItem;
+    [SerializeField]
+    private Sprite dropItemSprite;
     private Slider hpBar;
     private StageManager stageManager;
     private GameObject mainCamera;
@@ -145,7 +147,8 @@ public class BossEnemy4Controller : EnemyController
     protected override void FinishDieAnimation()
     {
         stageManager.AppearGoalItem();
-        Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        GameObject i = Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        i.GetComponent<GoalItem>().Initialize(dropItemSprite);
         Destroy(gameObject);
     }
 }

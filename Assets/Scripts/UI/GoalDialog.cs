@@ -15,14 +15,13 @@ public class GoalDialog : MonoBehaviour
     }
     private GoalDialogState state = GoalDialogState.WAIT;
     private GameObject dialog;
-    private Image itemImage;
-    private Text itemName;
-    private Text itemDetail;
+    // private Image itemImage;
+    private Text message;
     private Button confirmButton;
 
     private Vector2 scale = new Vector2(0.0f, 100.0f);
     private float alpha = 0.0f;
-    private Color32 imageColor = new Color32(255, 255, 255, 0);
+    // private Color32 imageColor = new Color32(255, 255, 255, 0);
     private Color32 textColor = new Color32(255, 255, 255, 0);
 
     private float openDialogSpeed = 100.0f;
@@ -36,19 +35,17 @@ public class GoalDialog : MonoBehaviour
     void OnEnable()
     {
         dialog = transform.Find("Canvas/Dialog").gameObject;
-        itemImage = dialog.transform.Find("Item").gameObject.GetComponent<Image>();
-        itemName = itemImage.transform.Find("ItemNameText").gameObject.GetComponent<Text>();
-        itemDetail = itemImage.transform.Find("ItemDetailText").gameObject.GetComponent<Text>();
+        // itemImage = dialog.transform.Find("Item").gameObject.GetComponent<Image>();
+        message = dialog.transform.Find("Message").gameObject.GetComponent<Text>();
         confirmButton = dialog.transform.Find("ConfirmButton").gameObject.GetComponent<Button>();
         confirmButton.onClick.AddListener(OnClickConfirmButton);
         scale = new Vector2(0.0f, 100.0f);
         dialog.transform.localScale = scale;
         alpha = 0.0f;
-        imageColor = new Color32(255, 255, 255, 0);
+        // imageColor = new Color32(255, 255, 255, 0);
         textColor = new Color32(255, 255, 255, 0);
-        itemImage.color = imageColor;
-        itemName.color = textColor;
-        itemDetail.color = textColor;
+        // itemImage.color = imageColor;
+        message.color = textColor;
         confirmButton.gameObject.SetActive(false);
         state = GoalDialogState.OPEN;
     }
@@ -78,10 +75,9 @@ public class GoalDialog : MonoBehaviour
                 {
                     alpha += alphaSpeed * Time.unscaledDeltaTime;
                     textColor.a = (byte)alpha;
-                    imageColor.a = (byte)alpha;
-                    itemImage.color = imageColor;
-                    itemName.color = textColor;
-                    itemDetail.color = textColor;
+                    // imageColor.a = (byte)alpha;
+                    // itemImage.color = imageColor;
+                    message.color = textColor;
                 }
                 else
                 {

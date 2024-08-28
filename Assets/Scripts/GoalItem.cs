@@ -24,6 +24,7 @@ public class GoalItem : MonoBehaviour
     private Light2D spotLight;
     private Vector2 pos;
     private float time = 0.0f;
+    private SpriteRenderer spriteRenderer;
 
     // private GoalDialog goalDialog;
     private StageDialogManager stageDialogManager;
@@ -38,6 +39,11 @@ public class GoalItem : MonoBehaviour
         spotLight.intensity = 0.0f;
         pos = transform.position;
         stageDialogManager = GameObject.Find("StageDialogManager").GetComponent<StageDialogManager>();
+    }
+    public void Initialize(Sprite sprite)
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprite;
     }
     void Update()
     {

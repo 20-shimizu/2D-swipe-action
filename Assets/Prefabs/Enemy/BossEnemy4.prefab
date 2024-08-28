@@ -778,6 +778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 100
   dropItem: {fileID: 3664243811279910891, guid: 9060997e71ff5f945ad3e4796197e11a, type: 3}
+  dropItemSprite: {fileID: 1850108923, guid: 94616a21dfa5b5948816997cfc69b56d, type: 3}
 --- !u!50 &1268375272029195159
 Rigidbody2D:
   serializedVersion: 4
