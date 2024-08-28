@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class GoalItem : MonoBehaviour
 {
+    private AudioManager audioManager;
     private enum GoalItemState
     {
         DESCENT,
@@ -29,6 +30,7 @@ public class GoalItem : MonoBehaviour
 
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         postProcessController = GameObject.Find("GlobalVolume").GetComponent<PostProcessController>();
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
         mainCamera = GameObject.Find("Main Camera");
@@ -51,6 +53,7 @@ public class GoalItem : MonoBehaviour
                 }
                 else
                 {
+                    audioManager.PlaySE("AppearGoalItem");
                     state = GoalItemState.GLOW_UP;
                 }
                 break;
@@ -71,6 +74,7 @@ public class GoalItem : MonoBehaviour
                 }
                 else
                 {
+                    audioManager.PlaySE("GoalDialog");
                     stageDialogManager.ShowDialog("GoalDialog");
                     state = GoalItemState.SHOW_DIALOG;
                 }
