@@ -20,6 +20,7 @@ public class Enemy2Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         shotPoint = transform.Find("ShotPoint").gameObject;
@@ -37,6 +38,7 @@ public class Enemy2Controller : EnemyController
 
     protected override void Attack()
     {
+        audioManager.PlaySE("NormalBullet");
         GameObject b1 = Instantiate(bullet, shotPoint.transform.position, transform.rotation);
         GameObject b2 = Instantiate(bullet, shotPoint.transform.position, transform.rotation);
         GameObject b3 = Instantiate(bullet, shotPoint.transform.position, transform.rotation);

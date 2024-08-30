@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class GoalItem : MonoBehaviour
 {
+    private AudioManager audioManager;
     private enum GoalItemState
     {
         DESCENT,
@@ -23,42 +24,49 @@ public class GoalItem : MonoBehaviour
     private Light2D spotLight;
     private Vector2 pos;
     private float time = 0.0f;
+    private SpriteRenderer spriteRenderer;
 
     // private GoalDialog goalDialog;
     private StageDialogManager stageDialogManager;
 
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         postProcessController = GameObject.Find("GlobalVolume").GetComponent<PostProcessController>();
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
         mainCamera = GameObject.Find("Main Camera");
         spotLight = transform.Find("SpotLight").gameObject.GetComponent<Light2D>();
         spotLight.intensity = 0.0f;
         pos = transform.position;
-        // goalDialog = GameObject.Find("StageDialogManager").GetComponent<GoalDialog>();
         stageDialogManager = GameObject.Find("StageDialogManager").GetComponent<StageDialogManager>();
+    }
+    public void Initialize(Sprite sprite)
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprite;
     }
     void Update()
     {
-        bloomIntensity = Mathf.PingPong(Time.time / 0.1f, 5.0f) + 5.0f;
+        bloomIntensity = Mathf.PingPong(Time.unscaledTime / 0.1f, 5.0f) + 5.0f;
         postProcessController.SetBloomIntensity(bloomIntensity);
         switch (state)
         {
             case GoalItemState.DESCENT:
                 if (transform.position.y > mainCamera.transform.position.y)
                 {
-                    pos.y -= appearSpeed * Time.deltaTime;
+                    pos.y -= appearSpeed * Time.unscaledDeltaTime;
                     transform.position = pos;
                 }
                 else
                 {
+                    audioManager.PlaySE("AppearGoalItem");
                     state = GoalItemState.GLOW_UP;
                 }
                 break;
             case GoalItemState.GLOW_UP:
                 if (spotLight.intensity < endLightIntensity)
                 {
-                    spotLight.intensity = spotLight.intensity + lightSpeed * Time.deltaTime;
+                    spotLight.intensity = spotLight.intensity + lightSpeed * Time.unscaledDeltaTime;
                 }
                 else
                 {
@@ -68,11 +76,11 @@ public class GoalItem : MonoBehaviour
             case GoalItemState.GLOWING:
                 if (time < 3.0f)
                 {
-                    time += Time.deltaTime;
+                    time += Time.unscaledDeltaTime;
                 }
                 else
                 {
-                    // goalDialog.AppearGoalDialog();
+                    audioManager.PlaySE("GoalDialog");
                     stageDialogManager.ShowDialog("GoalDialog");
                     state = GoalItemState.SHOW_DIALOG;
                 }
