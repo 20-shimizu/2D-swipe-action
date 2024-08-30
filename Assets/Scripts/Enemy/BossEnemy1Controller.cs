@@ -18,6 +18,8 @@ public class BossEnemy1Controller : EnemyController
     private GameObject bullet;
     [SerializeField]
     private GameObject dropItem;
+    [SerializeField]
+    private Sprite dropItemSprite;
     private Slider hpBar;
     private StageManager stageManager;
     private GameObject mainCamera;
@@ -31,6 +33,8 @@ public class BossEnemy1Controller : EnemyController
 
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         shotPoint = transform.Find("ShotPoint").gameObject;
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
         hpBar.maxValue = hp;
@@ -86,6 +90,7 @@ public class BossEnemy1Controller : EnemyController
 
     protected override void Attack()
     {
+        audioManager.PlaySE("FireBullet");
         for (int angle = 0; angle < 360; angle += 90)
         {
             ShotBullet((float)angle + attackAngleOffset);
@@ -100,7 +105,7 @@ public class BossEnemy1Controller : EnemyController
 
     private void GenerateNextPos()
     {
-        nextPos = new Vector2(transform.position.x + Random.Range(-4.0f, 4.0f), transform.position.y + Random.Range(-4.0f, 4.0f));
+        nextPos = new Vector2(transform.position.x + Random.Range(-8.0f, 8.0f), transform.position.y + Random.Range(-8.0f, 8.0f));
         while (!moveArea.OverlapPoint(nextPos))
         {
             nextPos = new Vector2(transform.position.x + Random.Range(-8.0f, 8.0f), transform.position.y + Random.Range(-8.0f, 8.0f));
@@ -112,22 +117,32 @@ public class BossEnemy1Controller : EnemyController
         hp -= damage;
         hpBar.value = hp;
         if (hp <= 0.0f) Die();
+        else anim.SetTrigger("Damage");
     }
 
     // 死亡 → 死亡演出,state:BOSS_DYING → アイテム出現演出,state:GOAL_ITEM_APPEARING → 取得した能力の説明ダイアログ表示,ボタン押してマップへ戻る
     protected override void Die()
     {
+        // ボス死亡後は全体の時間を止めるが、アニメーションは止めない
+        anim.updateMode = AnimatorUpdateMode.UnscaledTime;
         state = BossState.DIE;
         stageManager.DieBossEnemy();
         CancelInvoke();
         anim.SetTrigger("Die");
     }
 
+    // animation event から実行
+    private void PlayExplodeSE()
+    {
+        audioManager.PlaySE("BossEnemyExplode");
+    }
+
     // animation event から実行、ゴールアイテムの出現を開始する
     protected override void FinishDieAnimation()
     {
         stageManager.AppearGoalItem();
-        Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        GameObject i = Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        i.GetComponent<GoalItem>().Initialize(dropItemSprite);
         Destroy(gameObject);
     }
 }

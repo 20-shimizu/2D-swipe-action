@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class ShotPoint : MonoBehaviour
 {
+    AudioManager audioManager;
     [SerializeField]
     private GameObject bullet;
     [SerializeField]
     private float bulletSpeed;
     Color32 bulletColor = new Color32(0, 60, 160, 255);
 
+    void Start()
+    {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
+    }
+
     // animation event から実行
     private void GenerateBullets()
     {
+        audioManager.PlaySE("FireBullet");
         GameObject b1 = Instantiate(bullet, transform.position, transform.rotation);
         GameObject b2 = Instantiate(bullet, transform.position, transform.rotation);
         GameObject b3 = Instantiate(bullet, transform.position, transform.rotation);

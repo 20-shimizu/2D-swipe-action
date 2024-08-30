@@ -34,13 +34,11 @@ public class FadeManager : MonoBehaviour
         if (Instance == this)
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            Debug.Log("FadeManager destroyed");
         }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"Scene loaded: {scene.name}");
         StartCoroutine(SetupFadeImageAndFadeIn());
     }
 
@@ -51,11 +49,6 @@ public class FadeManager : MonoBehaviour
         if (fadeImage != null)
         {
             StartCoroutine(FadeCoroutine(1f, 0f));
-            Debug.Log("Fade in started");
-        }
-        else
-        {
-            Debug.LogError("FadeImage not found in the new scene!");
         }
     }
 
@@ -96,8 +89,6 @@ public class FadeManager : MonoBehaviour
         fadeImageRect.offsetMin = Vector2.zero;
         fadeImageRect.offsetMax = Vector2.zero;
         fadeImage.color = Color.black;
-
-        Debug.Log("FadeImage setup completed successfully");
     }
 
     public void FadeAndLoadScene(string sceneName)
@@ -111,7 +102,6 @@ public class FadeManager : MonoBehaviour
     private IEnumerator FadeAndLoadSceneCoroutine(string sceneName)
     {
         isFading = true;
-        Debug.Log($"Starting fade out to load scene: {sceneName}");
 
         // Fade out
         yield return StartCoroutine(FadeCoroutine(0f, 1f));
@@ -124,12 +114,10 @@ public class FadeManager : MonoBehaviour
 
     private IEnumerator FadeCoroutine(float startAlpha, float endAlpha)
     {
-        Debug.Log($"FadeCoroutine started: {startAlpha} to {endAlpha}");
         float elapsedTime = 0f;
 
         if (fadeImage == null)
         {
-            Debug.LogError("FadeImage is null during FadeCoroutine!");
             yield break;
         }
 
@@ -144,6 +132,5 @@ public class FadeManager : MonoBehaviour
         }
 
         fadeImage.color = new Color(color.r, color.g, color.b, endAlpha);
-        Debug.Log($"FadeCoroutine completed: alpha = {endAlpha}");
     }
 }
