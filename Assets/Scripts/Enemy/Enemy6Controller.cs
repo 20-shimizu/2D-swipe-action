@@ -14,6 +14,7 @@ public class Enemy6Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         anim.SetTrigger("Attack");
@@ -37,6 +38,7 @@ public class Enemy6Controller : EnemyController
 
     protected override void Attack()
     {
+        audioManager.PlaySE("NormalBullet");
         GameObject b1 = Instantiate(bullet, transform.position, transform.rotation);
         GameObject b2 = Instantiate(bullet, transform.position, transform.rotation);
         GameObject b3 = Instantiate(bullet, transform.position, transform.rotation);

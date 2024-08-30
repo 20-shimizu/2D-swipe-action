@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class EntryDialog : MonoBehaviour
 {
+    private AudioManager audioManager;
     private GameObject entryDialog;
     private Text guideText;
     private string stageName;
@@ -16,6 +17,7 @@ public class EntryDialog : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         entryDialog = transform.Find("Canvas/EntryDialog").gameObject;
         guideText = entryDialog.transform.Find("GuideText").gameObject.GetComponent<Text>();
         entryButton = entryDialog.transform.Find("EntryButton").gameObject.GetComponent<Button>();
@@ -28,6 +30,7 @@ public class EntryDialog : MonoBehaviour
 
     public void ShowDialog(string stageName)
     {
+        audioManager.PlaySE("OpenDialog");
         timeManager.TimeStop(true);
         entryDialog.SetActive(true);
         guideText.text = stageName + "\nに入りますか？";
@@ -35,11 +38,13 @@ public class EntryDialog : MonoBehaviour
     }
     private void OnClickEntryButton()
     {
+        audioManager.PlaySE("ButtonPositive");
         timeManager.TimeStop(false);
         SceneManager.LoadScene(stageName);
     }
     private void OnClickBackButton()
     {
+        audioManager.PlaySE("ButtonNegative");
         timeManager.TimeStop(false);
         entryDialog.SetActive(false);
     }

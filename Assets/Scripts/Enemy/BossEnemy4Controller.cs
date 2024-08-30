@@ -16,6 +16,8 @@ public class BossEnemy4Controller : EnemyController
     private BossState state = BossState.IDLE;
     [SerializeField]
     private GameObject dropItem;
+    [SerializeField]
+    private Sprite dropItemSprite;
     private Slider hpBar;
     private StageManager stageManager;
     private GameObject mainCamera;
@@ -33,6 +35,8 @@ public class BossEnemy4Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
         hpBar.maxValue = hp;
         hpBar.value = hp;
@@ -74,6 +78,7 @@ public class BossEnemy4Controller : EnemyController
                 {
                     count = 0.0f;
                     anim.SetTrigger("PrepareAttack");
+                    audioManager.PlaySE("BlackHole");
                     blackHole.SetActive(true);
                     state = BossState.PREPARE_ATTACK;
                     isFacingRight = player.transform.position.x > pos.x;
@@ -105,6 +110,7 @@ public class BossEnemy4Controller : EnemyController
     // animation event から実行
     protected override void Attack()
     {
+        audioManager.PlaySE("SlashAttack");
         attackCollider.SetActive(true);
     }
     private void EndAttack()
@@ -128,11 +134,13 @@ public class BossEnemy4Controller : EnemyController
         hp -= damage;
         hpBar.value = hp;
         if (hp <= 0.0f) Die();
+        else anim.SetTrigger("Damage");
     }
     protected override void Die()
     {
         // ボス死亡後は全体の時間を止めるが、アニメーションは止めない
         anim.updateMode = AnimatorUpdateMode.UnscaledTime;
+        audioManager.PlaySE("BossEnemyFall");
         state = BossState.DIE;
         stageManager.DieBossEnemy();
         CancelInvoke();
@@ -141,7 +149,8 @@ public class BossEnemy4Controller : EnemyController
     protected override void FinishDieAnimation()
     {
         stageManager.AppearGoalItem();
-        Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        GameObject i = Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        i.GetComponent<GoalItem>().Initialize(dropItemSprite);
         Destroy(gameObject);
     }
 }

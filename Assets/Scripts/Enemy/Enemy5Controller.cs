@@ -20,6 +20,7 @@ public class Enemy5Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         scale = transform.localScale;
@@ -48,6 +49,7 @@ public class Enemy5Controller : EnemyController
 
     protected override void Attack()
     {
+        audioManager.PlaySE("FireBullet");
         GameObject b = Instantiate(bullet, transform.position, transform.rotation);
         Vector2 direction = playerCtrl.transform.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

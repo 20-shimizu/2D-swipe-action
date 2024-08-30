@@ -18,6 +18,8 @@ public class BossEnemy3Controller : EnemyController
     private GameObject shotPoint;
     [SerializeField]
     private GameObject dropItem;
+    [SerializeField]
+    private Sprite dropItemSprite;
     private Slider hpBar;
     private StageManager stageManager;
     private GameObject mainCamera;
@@ -35,6 +37,8 @@ public class BossEnemy3Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         attackCollider = transform.Find("AttackCollider").gameObject;
         player = GameObject.Find("Player");
         attackCollider.SetActive(false);
@@ -94,7 +98,11 @@ public class BossEnemy3Controller : EnemyController
     }
 
     // animation event から実行
-    private void ActivateAttack() { attackCollider.SetActive(true); }
+    private void ActivateAttack()
+    {
+        attackCollider.SetActive(true);
+        audioManager.PlaySE("SlashAttack");
+    }
     private void ActivateShotPoint()
     {
         Instantiate(shotPoint, (Vector2)pivot.transform.position + new Vector2(Random.Range(5.0f, 8.0f), Random.Range(8.0f, 12.0f)), transform.rotation);
@@ -112,6 +120,7 @@ public class BossEnemy3Controller : EnemyController
         hp -= damage;
         hpBar.value = hp;
         if (hp <= 0.0f) Die();
+        else anim.SetTrigger("Damage");
     }
     protected override void Die()
     {
@@ -125,7 +134,8 @@ public class BossEnemy3Controller : EnemyController
     protected override void FinishDieAnimation()
     {
         stageManager.AppearGoalItem();
-        Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        GameObject i = Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        i.GetComponent<GoalItem>().Initialize(dropItemSprite);
         Destroy(gameObject);
     }
 }

@@ -18,6 +18,8 @@ public class BossEnemy2Controller : EnemyController
     private GameObject bullet;
     [SerializeField]
     private GameObject dropItem;
+    [SerializeField]
+    private Sprite dropItemSprite;
     private Slider hpBar;
     private StageManager stageManager;
     private GameObject mainCamera;
@@ -29,6 +31,8 @@ public class BossEnemy2Controller : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         shotPoint = transform.Find("ShotPoint").gameObject;
         hpBar = transform.Find("Canvas/HPBar").gameObject.GetComponent<Slider>();
         hpBar.maxValue = hp;
@@ -51,6 +55,7 @@ public class BossEnemy2Controller : EnemyController
                 if (count > 2.0f)
                 {
                     count = 0.0f;
+                    audioManager.PlaySE("AngelAttack");
                     InvokeRepeating("Attack", 0f, 0.1f);
                     state = BossState.ATTACK;
                 }
@@ -105,11 +110,13 @@ public class BossEnemy2Controller : EnemyController
         hp -= damage;
         hpBar.value = hp;
         if (hp <= 0.0f) Die();
+        else anim.SetTrigger("Damage");
     }
     protected override void Die()
     {
         // ボス死亡後は全体の時間を止めるが、アニメーションは止めない
         anim.updateMode = AnimatorUpdateMode.UnscaledTime;
+        audioManager.PlaySE("BossEnemyExplode");
         state = BossState.DIE;
         stageManager.DieBossEnemy();
         CancelInvoke();
@@ -118,7 +125,8 @@ public class BossEnemy2Controller : EnemyController
     protected override void FinishDieAnimation()
     {
         stageManager.AppearGoalItem();
-        Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        GameObject i = Instantiate(dropItem, new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.y + 8.0f), Quaternion.identity);
+        i.GetComponent<GoalItem>().Initialize(dropItemSprite);
         Destroy(gameObject);
     }
 }

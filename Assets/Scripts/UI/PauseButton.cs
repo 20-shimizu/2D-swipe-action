@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PauseButton : MonoBehaviour
 {
+    private AudioManager audioManager;
     private StageManager stageManager;
     private StageDialogManager stageDialogManager;
     private Button button;
@@ -12,6 +13,7 @@ public class PauseButton : MonoBehaviour
     private Color32 color = new Color32(255, 255, 255, 255);
     void Start()
     {
+        audioManager = GameObject.Find("AudioSource").GetComponent<AudioManager>();
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
         stageDialogManager = GameObject.Find("StageDialogManager").gameObject.GetComponent<StageDialogManager>();
         button = GetComponent<Button>();
@@ -35,6 +37,7 @@ public class PauseButton : MonoBehaviour
     }
     private void OnClickButton()
     {
+        audioManager.PlaySE("ButtonPositive");
         stageManager.Pose();
         stageDialogManager.ShowDialog("PauseDialog");
     }

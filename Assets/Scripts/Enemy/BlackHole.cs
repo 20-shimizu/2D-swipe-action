@@ -19,7 +19,6 @@ public class BlackHole : MonoBehaviour
     {
         Vector2 diff = transform.position - playerCtrl.transform.position;
         float force = Mathf.Clamp(absorbPower / (diff.magnitude * diff.magnitude), 0.0f, maxForce);
-        Debug.Log(force);
         playerCtrl.AddForce(force, diff);
     }
 }

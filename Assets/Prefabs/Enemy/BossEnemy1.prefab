@@ -170,9 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d28d4785b65769443a408fddf9de6b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
+  hp: 1000
   bullet: {fileID: 4199594986197006824, guid: 6bdd2b3c2d0b6674fafe238f854f1d78, type: 3}
   dropItem: {fileID: 3664243811279910891, guid: 9060997e71ff5f945ad3e4796197e11a, type: 3}
+  dropItemSprite: {fileID: 1844455410, guid: 94616a21dfa5b5948816997cfc69b56d, type: 3}
 --- !u!95 &671333857
 Animator:
   serializedVersion: 4
