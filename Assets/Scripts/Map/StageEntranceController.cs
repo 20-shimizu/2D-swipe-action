@@ -63,10 +63,10 @@ public class StageEntranceController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("OnTriggerEnter");
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(stageName);
+            other.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            FadeManager.Instance.FadeAndLoadScene(stageName);
         }
     }
 }
