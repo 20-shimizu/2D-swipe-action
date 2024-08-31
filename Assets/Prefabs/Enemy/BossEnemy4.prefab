@@ -776,7 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e548307da906504d92365afd9942f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  hp: 300
   dropItem: {fileID: 3664243811279910891, guid: 9060997e71ff5f945ad3e4796197e11a, type: 3}
   dropItemSprite: {fileID: 1850108923, guid: 94616a21dfa5b5948816997cfc69b56d, type: 3}
 --- !u!50 &1268375272029195159
