@@ -194,6 +194,18 @@ public class PlayerController : MonoBehaviour
         if (hp <= 0) Die();
     }
 
+    private void Heal()
+    {
+        audioManager.PlaySE("Heal");
+        hp += 1;
+        if (hp > 3) hp = 3;
+        for (int i = 0; i < 3; i++)
+        {
+            if (i <= hp - 1) hpGauges[i].color = hpActiveColor;
+            else hpGauges[i].color = hpInactiveColor;
+        }
+    }
+
     public void KnockBack(Vector2 vec, float force)
     {
         rb.velocity = Vector2.zero;
@@ -270,6 +282,11 @@ public class PlayerController : MonoBehaviour
                 else
                     KnockBack(transform.position - other.transform.parent.Find("Pivot").transform.position, pushedPower);
             }
+        }
+        else if (other.gameObject.tag == "HealItem")
+        {
+            Heal();
+            Destroy(other.gameObject);
         }
         else if (other.gameObject.tag == "Trap")
         {

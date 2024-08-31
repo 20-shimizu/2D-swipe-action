@@ -172,6 +172,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: e9a8f70ccf9a849478ccef4c9c3f8e63, type: 3}
   - name: GoalDialog
     clip: {fileID: 8300000, guid: a00978eab6de174459b838664a7ea474, type: 3}
+  - name: Heal
+    clip: {fileID: 8300000, guid: ed4f781143ffe9f418a3da9164e35fe7, type: 3}
   BGMClips:
   - name: Title
     clip: {fileID: 8300000, guid: 339e07b70de073b4aae701102408a37c, type: 3}

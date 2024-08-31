@@ -10,6 +10,7 @@ TagManager:
   - BossEnemy
   - Trap
   - Slash
+  - HealItem
   layers:
   - Default
   - TransparentFX
