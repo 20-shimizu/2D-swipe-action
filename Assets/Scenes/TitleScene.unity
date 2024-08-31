@@ -1013,10 +1013,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 3
     m_MaxSize: 50
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -1024,7 +1024,15 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u753B\u50CF\u7D20\u6750\n\u30FB\n\u30FB\n\u30FB\n\u30FB\n\u30FB\n\u30FB\n\u30FB\n\u30FB\n\u30FB\n\u30FB\n\u30FB\n\u30FB"
+  m_Text: "\u753B\u50CF\u7D20\u6750\n\u30FBHero Knight from Luiz Melo\n\u30FB2D Amulets
+    KIT from Pixel Life\n\u30FBEvil Wizard from Luiz Melo\n\u30FBPixel FX - Fire
+    from Admurin\n\u30FBMonsters_Creatures_Fantasy from Luiz Melo\n\u30FBToo Cube
+    Forest, the free 2D platformer game tile set. from MEMO-MK2\n\u30FB2D Pixed Art
+    - Distant Forest 64x64 from Lifty\n\u30FBPixel Adventure1 from Pixel Frog\n\u30FBSlime
+    Character from NYKNCK\n\u30FBGothicvania Swamp from Ansimuz\n\u30FBGothicVania
+    Church Pack from Ansimuz\n\u30FBWarped City Assets Pack Ansimuz\n\u30FBWarped
+    City 2 from Ansimuz\n\u30FBWarped Shooting Fx from Ansimuz\n\u30FBBringer Of
+    Death (free) from Clembod\n\u30FBEvil Wizard 2 from Luiz Melo\n\n\u97F3\u6E90\u7D20\u6750\n\u30FBOtoLogic\n\u30FBSpringin\n\u30FB\u30E6\u30FC\u30D5\u30EB\u30AB"
 --- !u!222 &1395685530
 CanvasRenderer:
   m_ObjectHideFlags: 0
