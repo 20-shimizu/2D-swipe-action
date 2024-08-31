@@ -58,6 +58,9 @@ public class AudioManager : MonoBehaviour
             case "Stage4":
                 PlayBGM("Stage4");
                 break;
+            case "TestScene":
+                PlayBGM("Stage1");
+                break;
             default:
                 break;
         }
