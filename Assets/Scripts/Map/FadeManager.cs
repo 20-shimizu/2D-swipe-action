@@ -8,6 +8,7 @@ public class FadeManager : MonoBehaviour
     public static FadeManager Instance { get; private set; }
 
     private Image fadeImage;
+    private Canvas fadeCanvas;
     [SerializeField] private float fadeDuration = 1f;
     [SerializeField] private string fadeCanvasName = "FadeCanvas";
     [SerializeField] private string fadeImageName = "FadeImage";
@@ -48,14 +49,15 @@ public class FadeManager : MonoBehaviour
         SetupFadeImage();
         if (fadeImage != null)
         {
-            StartCoroutine(FadeCoroutine(1f, 0f));
+            yield return StartCoroutine(FadeCoroutine(1f, 0f));
+            DeactivateFadeCanvas(); // Always deactivate after fade in
         }
     }
 
     private void SetupFadeImage()
     {
         // Find FadeCanvas in the root of the scene
-        Canvas fadeCanvas = null;
+        fadeCanvas = null;
         Canvas[] canvases = FindObjectsOfType<Canvas>();
         foreach (Canvas canvas in canvases)
         {
@@ -89,6 +91,9 @@ public class FadeManager : MonoBehaviour
         fadeImageRect.offsetMin = Vector2.zero;
         fadeImageRect.offsetMax = Vector2.zero;
         fadeImage.color = Color.black;
+
+        // Ensure the canvas is active when setting up
+        ActivateFadeCanvas();
     }
 
     public void FadeAndLoadScene(string sceneName)
@@ -102,6 +107,9 @@ public class FadeManager : MonoBehaviour
     private IEnumerator FadeAndLoadSceneCoroutine(string sceneName)
     {
         isFading = true;
+
+        // Ensure the canvas is active before fading
+        ActivateFadeCanvas();
 
         // Fade out
         yield return StartCoroutine(FadeCoroutine(0f, 1f));
@@ -132,5 +140,27 @@ public class FadeManager : MonoBehaviour
         }
 
         fadeImage.color = new Color(color.r, color.g, color.b, endAlpha);
+
+        // Deactivate canvas if fade in is complete
+        if (endAlpha == 0f)
+        {
+            DeactivateFadeCanvas();
+        }
+    }
+
+    private void ActivateFadeCanvas()
+    {
+        if (fadeCanvas != null)
+        {
+            fadeCanvas.gameObject.SetActive(true);
+        }
+    }
+
+    private void DeactivateFadeCanvas()
+    {
+        if (fadeCanvas != null)
+        {
+            fadeCanvas.gameObject.SetActive(false);
+        }
     }
 }
