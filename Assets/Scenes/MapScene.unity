@@ -661,7 +661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4237188572747372849, guid: 4cb7fdaa1078b3145964956d1d17f71f, type: 3}
       propertyPath: stageName
-      value: TestScene
+      value: Stage4
       objectReference: {fileID: 0}
     - target: {fileID: 4237188572747372850, guid: 4cb7fdaa1078b3145964956d1d17f71f, type: 3}
       propertyPath: m_Name
@@ -2950,7 +2950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4237188572747372849, guid: 4cb7fdaa1078b3145964956d1d17f71f, type: 3}
       propertyPath: stageName
-      value: TestScene
+      value: Stage2
       objectReference: {fileID: 0}
     - target: {fileID: 4237188572747372850, guid: 4cb7fdaa1078b3145964956d1d17f71f, type: 3}
       propertyPath: m_Name
@@ -3481,7 +3481,7 @@ Transform:
   m_GameObject: {fileID: 1622245595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.5059744}
-  m_LocalScale: {x: 14.252442, y: 12.09544, z: 16.012926}
+  m_LocalScale: {x: 16, y: 13.578518, z: 17.976345}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -3852,7 +3852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4237188572747372849, guid: 4cb7fdaa1078b3145964956d1d17f71f, type: 3}
       propertyPath: stageName
-      value: TestScene
+      value: Stage3
       objectReference: {fileID: 0}
     - target: {fileID: 4237188572747372850, guid: 4cb7fdaa1078b3145964956d1d17f71f, type: 3}
       propertyPath: m_Name
@@ -4510,7 +4510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4237188572747372849, guid: 4cb7fdaa1078b3145964956d1d17f71f, type: 3}
       propertyPath: stageName
-      value: TestScene
+      value: Stage1
       objectReference: {fileID: 0}
     - target: {fileID: 4237188572747372850, guid: 4cb7fdaa1078b3145964956d1d17f71f, type: 3}
       propertyPath: m_Name
